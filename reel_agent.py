@@ -39,3 +39,50 @@ with open("ai_grading/slide_plan.json", "w") as f:
     json.dump(result.output.model_dump(), f, indent=2)
 
 print("Saved to ai_grading/slide_plan.json")
+def render_slide_html(slide):
+    return f"""<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  body {{
+    margin: 0;
+    width: 1080px;
+    height: 1920px;
+    background: #101820;
+    color: #ffffff;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 80px;
+    box-sizing: border-box;
+  }}
+  h1 {{
+    font-size: 56px;
+    color: #f4c95d;
+    margin-bottom: 40px;
+  }}
+  p {{
+    font-size: 32px;
+    line-height: 1.5;
+    max-width: 800px;
+  }}
+</style>
+</head>
+<body>
+  <h1>SuperDuper</h1>
+  <p>{slide.description}</p>
+</body>
+</html>
+"""
+
+os.makedirs("slides", exist_ok=True)
+for slide in result.output.slides:
+    html_content = render_slide_html(slide)
+    with open(f"slides/slide_{slide.slide_number}.html", "w") as f:
+        f.write(html_content)
+
+print("Saved HTML slides to slides/")
