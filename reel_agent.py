@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from pydantic import BaseModel
 from pydantic_ai import Agent
-
+import json
 load_dotenv()
 
 class Slide(BaseModel):
@@ -34,3 +34,8 @@ for slide in result.output.slides:
     print(f"  On screen: {slide.description}")
     print(f"  Narration: {slide.narration}")
     print()
+    os.makedirs("ai_grading", exist_ok=True)
+with open("ai_grading/slide_plan.json", "w") as f:
+    json.dump(result.output.model_dump(), f, indent=2)
+
+print("Saved to ai_grading/slide_plan.json")
