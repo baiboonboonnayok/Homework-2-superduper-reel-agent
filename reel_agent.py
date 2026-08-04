@@ -78,10 +78,98 @@ def render_slide_html(slide):
 </body>
 </html>
 """
-
+def render_visual_slide(slide):
+    return f"""<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  body {{
+    margin: 0;
+    width: 1080px;
+    height: 1920px;
+    background: #101820;
+    color: #ffffff;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 80px;
+    box-sizing: border-box;
+  }}
+  h1 {{
+    font-size: 52px;
+    color: #f4c95d;
+    margin-bottom: 100px;
+    text-align: center;
+  }}
+  .steps {{
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    width: 100%;
+  }}
+  .step {{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+  }}
+  .step-number {{
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: #f4c95d;
+    color: #101820;
+    font-size: 40px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }}
+  .step-box {{
+    background: #1c2733;
+    border: 2px solid #f4c95d;
+    border-radius: 16px;
+    padding: 30px 40px;
+    font-size: 30px;
+    flex-grow: 1;
+  }}
+  .arrow {{
+    font-size: 50px;
+    color: #f4c95d;
+    text-align: center;
+  }}
+</style>
+</head>
+<body>
+  <h1>How SuperDuper Works</h1>
+  <div class="steps">
+    <div class="step">
+      <div class="step-number">1</div>
+      <div class="step-box">Share your design idea</div>
+    </div>
+    <div class="arrow">&#8595;</div>
+    <div class="step">
+      <div class="step-number">2</div>
+      <div class="step-box">We produce it in Bangkok</div>
+    </div>
+    <div class="arrow">&#8595;</div>
+    <div class="step">
+      <div class="step-number">3</div>
+      <div class="step-box">You launch your collection</div>
+    </div>
+  </div>
+</body>
+</html>
+"""
 os.makedirs("slides", exist_ok=True)
 for slide in result.output.slides:
-    html_content = render_slide_html(slide)
+    if slide.slide_number == 3:
+        html_content = render_visual_slide(slide)
+    else:
+        html_content = render_slide_html(slide)
     with open(f"slides/slide_{slide.slide_number}.html", "w") as f:
         f.write(html_content)
 
