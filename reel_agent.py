@@ -3,7 +3,9 @@ from dotenv import load_dotenv
 from pydantic import BaseModel
 from pydantic_ai import Agent
 import json
+from openai import OpenAI
 load_dotenv()
+tts_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 class Slide(BaseModel):
     slide_number: int
@@ -174,3 +176,14 @@ for slide in result.output.slides:
         f.write(html_content)
 
 print("Saved HTML slides to slides/")
+os.makedirs("audio", exist_ok=True)
+for slide in result.output.slides:
+    audio_path = f"audio/slide_{slide.slide_number}.mp3"
+    with tts_client.audio.speech.with_streaming_response.create(
+        model="tts-1-hd",
+        voice="alloy",
+        input=slide.narration,
+    ) as response:
+        response.stream_to_file(audio_path)
+
+print("Saved narration audio to audio/")
