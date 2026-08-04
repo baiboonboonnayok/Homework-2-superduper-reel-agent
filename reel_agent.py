@@ -1,27 +1,34 @@
 import os
+import json
 from dotenv import load_dotenv
 from pydantic import BaseModel
 from pydantic_ai import Agent
-import json
 from openai import OpenAI
+
 load_dotenv()
 tts_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
+
 class Slide(BaseModel):
     slide_number: int
-    description: str   # what's on screen: text and visuals
-    narration: str      # what the voice says for this slide
+    description: str
+    narration: str
+
 
 class SlidePlan(BaseModel):
     slides: list[Slide]
+
+
 class Critique(BaseModel):
     strengths: str
     weaknesses: str
     suggestions: str
 
+
 class RevisedSlide(BaseModel):
     description: str
     narration: str
+
 
 agent = Agent(
     "openai:gpt-5.6-luna",
@@ -33,6 +40,7 @@ agent = Agent(
         "aloud, kept short enough to read in about 15 seconds or less."
     ),
 )
+
 critique_agent = Agent(
     "openai:gpt-5.6-luna",
     output_type=Critique,
@@ -54,22 +62,9 @@ revision_agent = Agent(
         "narration short enough to read aloud in about 15 seconds or less."
     ),
 )
-with open("project_proposal.md", "r") as f:
-    proposal_text = f.read()
 
-result = agent.run_sync(proposal_text)
 
-for slide in result.output.slides:
-    print(f"Slide {slide.slide_number}")
-    print(f"  On screen: {slide.description}")
-    print(f"  Narration: {slide.narration}")
-    print()
-    os.makedirs("ai_grading", exist_ok=True)
-with open("ai_grading/slide_plan.json", "w") as f:
-    json.dump(result.output.model_dump(), f, indent=2)
-
-print("Saved to ai_grading/slide_plan.json")
-def render_slide_html(slide):
+def render_slide_html(slide_number, description):
     return f"""<!DOCTYPE html>
 <html>
 <head>
@@ -104,11 +99,13 @@ def render_slide_html(slide):
 </head>
 <body>
   <h1>SuperDuper</h1>
-  <p>{slide.description}</p>
+  <p>{description}</p>
 </body>
 </html>
 """
-def render_visual_slide(slide):
+
+
+def render_visual_slide(slide_number, description):
     return f"""<!DOCTYPE html>
 <html>
 <head>
@@ -194,28 +191,30 @@ def render_visual_slide(slide):
 </body>
 </html>
 """
-os.makedirs("slides", exist_ok=True)
-for slide in result.output.slides:
-    if slide.slide_number == 3:
-        html_content = render_visual_slide(slide)
-    else:
-        html_content = render_slide_html(slide)
-    with open(f"slides/slide_{slide.slide_number}.html", "w") as f:
-        f.write(html_content)
 
-print("Saved HTML slides to slides/")
-os.makedirs("audio", exist_ok=True)
-for slide in result.output.slides:
-    audio_path = f"audio/slide_{slide.slide_number}.mp3"
-    with tts_client.audio.speech.with_streaming_response.create(
-        model="tts-1-hd",
-        voice="alloy",
-        input=slide.narration,
-    ) as response:
-        response.stream_to_file(audio_path)
 
-print("Saved narration audio to audio/")
+# Step 1: read the proposal and plan the slides
+with open("project_proposal.md", "r") as f:
+    proposal_text = f.read()
+
+result = agent.run_sync(proposal_text)
+
+for slide in result.output.slides:
+    print(f"Slide {slide.slide_number}")
+    print(f"  On screen: {slide.description}")
+    print(f"  Narration: {slide.narration}")
+    print()
+
+os.makedirs("ai_grading", exist_ok=True)
+with open("ai_grading/slide_plan.json", "w") as f:
+    json.dump(result.output.model_dump(), f, indent=2)
+
+print("Saved to ai_grading/slide_plan.json")
+
+# Step 2: critique and revise each slide
 critique_records = []
+final_slides = []
+
 for slide in result.output.slides:
     original_text = f"Description: {slide.description}\nNarration: {slide.narration}"
     critique_result = critique_agent.run_sync(original_text)
@@ -240,7 +239,37 @@ for slide in result.output.slides:
         "revised_narration": revised.narration,
     })
 
+    final_slides.append({
+        "slide_number": slide.slide_number,
+        "description": revised.description,
+        "narration": revised.narration,
+    })
+
 with open("ai_grading/critique_feedback.json", "w") as f:
     json.dump(critique_records, f, indent=2)
 
 print("Saved critique and feedback to ai_grading/critique_feedback.json")
+
+# Step 3: build the HTML slides and audio from the REVISED (final) content
+os.makedirs("slides", exist_ok=True)
+for slide in final_slides:
+    if slide["slide_number"] == 3:
+        html_content = render_visual_slide(slide["slide_number"], slide["description"])
+    else:
+        html_content = render_slide_html(slide["slide_number"], slide["description"])
+    with open(f"slides/slide_{slide['slide_number']}.html", "w") as f:
+        f.write(html_content)
+
+print("Saved HTML slides to slides/")
+
+os.makedirs("audio", exist_ok=True)
+for slide in final_slides:
+    audio_path = f"audio/slide_{slide['slide_number']}.mp3"
+    with tts_client.audio.speech.with_streaming_response.create(
+        model="tts-1-hd",
+        voice="alloy",
+        input=slide["narration"],
+    ) as response:
+        response.stream_to_file(audio_path)
+
+print("Saved narration audio to audio/")
