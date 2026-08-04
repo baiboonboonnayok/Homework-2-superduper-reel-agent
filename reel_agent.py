@@ -1,5 +1,6 @@
 import os
 import json
+from concurrent.futures import ThreadPoolExecutor
 from dotenv import load_dotenv
 from pydantic import BaseModel
 from pydantic_ai import Agent
@@ -64,7 +65,7 @@ revision_agent = Agent(
 )
 
 
-def render_slide_html(slide_number, description):
+def render_slide_html(description):
     return f"""<!DOCTYPE html>
 <html>
 <head>
@@ -105,7 +106,7 @@ def render_slide_html(slide_number, description):
 """
 
 
-def render_visual_slide(slide_number, description):
+def render_visual_slide(description):
     return f"""<!DOCTYPE html>
 <html>
 <head>
@@ -193,6 +194,47 @@ def render_visual_slide(slide_number, description):
 """
 
 
+def process_slide(slide):
+    """Critique, revise, and produce final HTML + audio for one slide (runs in its own thread)."""
+    original_text = f"Description: {slide.description}\nNarration: {slide.narration}"
+    critique_result = critique_agent.run_sync(original_text)
+    critique = critique_result.output
+
+    revision_input = (
+        f"Original description: {slide.description}\n"
+        f"Original narration: {slide.narration}\n"
+        f"Strengths: {critique.strengths}\n"
+        f"Weaknesses: {critique.weaknesses}\n"
+        f"Suggestions: {critique.suggestions}"
+    )
+    revision_result = revision_agent.run_sync(revision_input)
+    revised = revision_result.output
+
+    if slide.slide_number == 3:
+        html_content = render_visual_slide(revised.description)
+    else:
+        html_content = render_slide_html(revised.description)
+    with open(f"slides/slide_{slide.slide_number}.html", "w") as f:
+        f.write(html_content)
+
+    audio_path = f"audio/slide_{slide.slide_number}.mp3"
+    with tts_client.audio.speech.with_streaming_response.create(
+        model="tts-1-hd",
+        voice="alloy",
+        input=revised.narration,
+    ) as response:
+        response.stream_to_file(audio_path)
+
+    return {
+        "slide_number": slide.slide_number,
+        "original_description": slide.description,
+        "original_narration": slide.narration,
+        "critique": critique.model_dump(),
+        "revised_description": revised.description,
+        "revised_narration": revised.narration,
+    }
+
+
 # Step 1: read the proposal and plan the slides
 with open("project_proposal.md", "r") as f:
     proposal_text = f.read()
@@ -211,65 +253,18 @@ with open("ai_grading/slide_plan.json", "w") as f:
 
 print("Saved to ai_grading/slide_plan.json")
 
-# Step 2: critique and revise each slide
-critique_records = []
-final_slides = []
+# Step 2: critique, revise, and build HTML + audio for every slide IN PARALLEL
+os.makedirs("slides", exist_ok=True)
+os.makedirs("audio", exist_ok=True)
 
-for slide in result.output.slides:
-    original_text = f"Description: {slide.description}\nNarration: {slide.narration}"
-    critique_result = critique_agent.run_sync(original_text)
-    critique = critique_result.output
+with ThreadPoolExecutor(max_workers=5) as executor:
+    critique_records = list(executor.map(process_slide, result.output.slides))
 
-    revision_input = (
-        f"Original description: {slide.description}\n"
-        f"Original narration: {slide.narration}\n"
-        f"Strengths: {critique.strengths}\n"
-        f"Weaknesses: {critique.weaknesses}\n"
-        f"Suggestions: {critique.suggestions}"
-    )
-    revision_result = revision_agent.run_sync(revision_input)
-    revised = revision_result.output
-
-    critique_records.append({
-        "slide_number": slide.slide_number,
-        "original_description": slide.description,
-        "original_narration": slide.narration,
-        "critique": critique.model_dump(),
-        "revised_description": revised.description,
-        "revised_narration": revised.narration,
-    })
-
-    final_slides.append({
-        "slide_number": slide.slide_number,
-        "description": revised.description,
-        "narration": revised.narration,
-    })
+critique_records.sort(key=lambda r: r["slide_number"])
 
 with open("ai_grading/critique_feedback.json", "w") as f:
     json.dump(critique_records, f, indent=2)
 
 print("Saved critique and feedback to ai_grading/critique_feedback.json")
-
-# Step 3: build the HTML slides and audio from the REVISED (final) content
-os.makedirs("slides", exist_ok=True)
-for slide in final_slides:
-    if slide["slide_number"] == 3:
-        html_content = render_visual_slide(slide["slide_number"], slide["description"])
-    else:
-        html_content = render_slide_html(slide["slide_number"], slide["description"])
-    with open(f"slides/slide_{slide['slide_number']}.html", "w") as f:
-        f.write(html_content)
-
 print("Saved HTML slides to slides/")
-
-os.makedirs("audio", exist_ok=True)
-for slide in final_slides:
-    audio_path = f"audio/slide_{slide['slide_number']}.mp3"
-    with tts_client.audio.speech.with_streaming_response.create(
-        model="tts-1-hd",
-        voice="alloy",
-        input=slide["narration"],
-    ) as response:
-        response.stream_to_file(audio_path)
-
 print("Saved narration audio to audio/")
