@@ -14,6 +14,14 @@ class Slide(BaseModel):
 
 class SlidePlan(BaseModel):
     slides: list[Slide]
+class Critique(BaseModel):
+    strengths: str
+    weaknesses: str
+    suggestions: str
+
+class RevisedSlide(BaseModel):
+    description: str
+    narration: str
 
 agent = Agent(
     "openai:gpt-5.6-luna",
@@ -25,7 +33,27 @@ agent = Agent(
         "aloud, kept short enough to read in about 15 seconds or less."
     ),
 )
+critique_agent = Agent(
+    "openai:gpt-5.6-luna",
+    output_type=Critique,
+    system_prompt=(
+        "You are a critical creative director reviewing one slide from a short "
+        "promotional video reel. Given the slide's on-screen description and "
+        "its narration, identify what's strong, what's weak or confusing, and "
+        "give specific suggestions to improve both the visual and the narration."
+    ),
+)
 
+revision_agent = Agent(
+    "openai:gpt-5.6-luna",
+    output_type=RevisedSlide,
+    system_prompt=(
+        "You revise a video reel slide based on critique feedback. Given the "
+        "original description and narration, plus the critique and suggestions, "
+        "produce an improved description and improved narration. Keep the "
+        "narration short enough to read aloud in about 15 seconds or less."
+    ),
+)
 with open("project_proposal.md", "r") as f:
     proposal_text = f.read()
 
@@ -187,3 +215,32 @@ for slide in result.output.slides:
         response.stream_to_file(audio_path)
 
 print("Saved narration audio to audio/")
+critique_records = []
+for slide in result.output.slides:
+    original_text = f"Description: {slide.description}\nNarration: {slide.narration}"
+    critique_result = critique_agent.run_sync(original_text)
+    critique = critique_result.output
+
+    revision_input = (
+        f"Original description: {slide.description}\n"
+        f"Original narration: {slide.narration}\n"
+        f"Strengths: {critique.strengths}\n"
+        f"Weaknesses: {critique.weaknesses}\n"
+        f"Suggestions: {critique.suggestions}"
+    )
+    revision_result = revision_agent.run_sync(revision_input)
+    revised = revision_result.output
+
+    critique_records.append({
+        "slide_number": slide.slide_number,
+        "original_description": slide.description,
+        "original_narration": slide.narration,
+        "critique": critique.model_dump(),
+        "revised_description": revised.description,
+        "revised_narration": revised.narration,
+    })
+
+with open("ai_grading/critique_feedback.json", "w") as f:
+    json.dump(critique_records, f, indent=2)
+
+print("Saved critique and feedback to ai_grading/critique_feedback.json")
