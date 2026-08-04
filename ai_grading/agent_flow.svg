@@ -1,0 +1,113 @@
+<svg viewBox="0 0 900 1500" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <rect width="900" height="1500" fill="#101820"/>
+  <rect x="250" y="40" width="400" height="80" rx="12" fill="#1c2733" stroke="#f4c95d" stroke-width="2"/>
+  <text x="450" y="75" fill="#ffffff" font-size="22" font-weight="bold" text-anchor="middle">project_proposal.md</text>
+  <text x="450" y="100" fill="#f4c95d" font-size="15" text-anchor="middle">input file</text>
+  <line x1="450" y1="120" x2="450" y2="160" stroke="#f4c95d" stroke-width="3"/>
+  <polygon points="450,168 442,152 458,152" fill="#f4c95d"/>
+  <rect x="200" y="170" width="500" height="100" rx="12" fill="#1c2733" stroke="#f4c95d" stroke-width="2"/>
+  <text x="450" y="205" fill="#ffffff" font-size="22" font-weight="bold" text-anchor="middle">Planner Agent (gpt-5.6-luna)</text>
+  <text x="450" y="230" fill="#cfd8e3" font-size="14" text-anchor="middle">in: proposal text</text>
+  <text x="450" y="250" fill="#cfd8e3" font-size="14" text-anchor="middle">out: slide_plan.json (4-6 slides: headline, description, narration)</text>
+  <line x1="450" y1="270" x2="450" y2="310" stroke="#f4c95d" stroke-width="3"/>
+  <polygon points="450,318 442,302 458,302" fill="#f4c95d"/>
+  <rect x="60" y="320" width="780" height="520" rx="16" fill="none" stroke="#f4c95d" stroke-width="2" stroke-dasharray="8,6"/>
+  <text x="450" y="350" fill="#f4c95d" font-size="16" font-weight="bold" text-anchor="middle">PARALLEL — one thread per slide (ThreadPoolExecutor)</text>
+  <rect x="100" y="370" width="700" height="90" rx="10" fill="#1c2733" stroke="#ffffff" stroke-width="1.5"/>
+  <text x="450" y="400" fill="#ffffff" font-size="18" font-weight="bold" text-anchor="middle">Critique Agent (gpt-5.6-luna)</text>
+  <text x="450" y="422" fill="#cfd8e3" font-size="13" text-anchor="middle">in: slide headline + description + narration</text>
+  <text x="450" y="440" fill="#cfd8e3" font-size="13" text-anchor="middle">out: strengths, weaknesses, suggestions</text>
+  <line x1="450" y1="460" x2="450" y2="480" stroke="#f4c95d" stroke-width="2"/>
+  <polygon points="450,486 444,474 456,474" fill="#f4c95d"/>
+  <rect x="100" y="490" width="700" height="90" rx="10" fill="#1c2733" stroke="#ffffff" stroke-width="1.5"/>
+  <text x="450" y="520" fill="#ffffff" font-size="18" font-weight="bold" text-anchor="middle">Revision Agent (gpt-5.6-luna)</text>
+  <text x="450" y="542" fill="#cfd8e3" font-size="13" text-anchor="middle">in: original slide + critique</text>
+  <text x="450" y="560" fill="#cfd8e3" font-size="13" text-anchor="middle">out: revised headline, description, narration</text>
+  <line x1="450" y1="580" x2="450" y2="600" stroke="#f4c95d" stroke-width="2"/>
+  <polygon points="450,606 444,594 456,594" fill="#f4c95d"/>
+  <rect x="100" y="610" width="330" height="100" rx="10" fill="#1c2733" stroke="#ffffff" stroke-width="1.5"/>
+  <text x="265" y="640" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">HTML Renderer</text>
+  <text x="265" y="662" fill="#cfd8e3" font-size="12" text-anchor="middle">in: revised headline</text>
+  <text x="265" y="680" fill="#cfd8e3" font-size="12" text-anchor="middle">out: slides/slide_N.html</text>
+  <rect x="470" y="610" width="330" height="100" rx="10" fill="#1c2733" stroke="#ffffff" stroke-width="1.5"/>
+  <text x="635" y="640" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">TTS (tts-1-hd)</text>
+  <text x="635" y="662" fill="#cfd8e3" font-size="12" text-anchor="middle">in: revised narration</text>
+  <text x="635" y="680" fill="#cfd8e3" font-size="12" text-anchor="middle">out: audio/slide_N.mp3</text>
+  <line x1="450" y1="850" x2="450" y2="890" stroke="#f4c95d" stroke-width="3"/>
+  <polygon points="450,898 442,882 458,882" fill="#f4c95d"/>
+  <rect x="200" y="900" width="500" height="90" rx="12" fill="#1c2733" stroke="#f4c95d" stroke-width="2"/>
+  <text x="450" y="932" fill="#ffffff" font-size="20" font-weight="bold" text-anchor="middle">Playwright (headless Chromium)</text>
+  <text x="450" y="955" fill="#cfd8e3" font-size="13" text-anchor="middle">in: slide_N.html  →  out: slide_N.png screenshots</text>
+  <line x1="450" y1="990" x2="450" y2="1030" stroke="#f4c95d" stroke-width="3"/>
+  <polygon points="450,1038 442,1022 458,1022" fill="#f4c95d"/>
+  <rect x="200" y="1040" width="500" height="90" rx="12" fill="#1c2733" stroke="#f4c95d" stroke-width="2"/>
+  <text x="450" y="1072" fill="#ffffff" font-size="20" font-weight="bold" text-anchor="middle">ffmpeg — per-slide clip</text>
+  <text x="450" y="1095" fill="#cfd8e3" font-size="13" text-anchor="middle">in: slide_N.png + slide_N.mp3  →  out: clip_N.mp4</text>
+  <line x1="450" y1="1130" x2="450" y2="1170" stroke="#f4c95d" stroke-width="3"/>
+  <polygon points="450,1178 442,1162 458,1162" fill="#f4c95d"/>
+  <rect x="200" y="1180" width="500" height="90" rx="12" fill="#1c2733" stroke="#f4c95d" stroke-width="2"/>
+  <text x="450" y="1212" fill="#ffffff" font-size="20" font-weight="bold" text-anchor="middle">ffmpeg — concat all clips</text>
+  <text x="450" y="1235" fill="#cfd8e3" font-size="13" text-anchor="middle">in: clip_1..clip_5.mp4  →  out: reel.mp4</text>
+  <line x1="450" y1="1270" x2="450" y2="1310" stroke="#f4c95d" stroke-width="3"/>
+  <polygon points="450,1318 442,1302 458,1302" fill="#f4c95d"/>
+  <rect x="300" y="1320" width="300" height="80" rx="12" fill="#f4c95d"/>
+  <text x="450" y="1355" fill="#101820" font-size="22" font-weight="bold" text-anchor="middle">reel.mp4</text>
+  <text x="450" y="1378" fill="#101820" font-size="14" text-anchor="middle">final output (~30-60s)</text>
+</svg>
+EOcat > ai_grading/agent_flow.svg << 'EOF'
+<svg viewBox="0 0 900 1500" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <rect width="900" height="1500" fill="#101820"/>
+  <rect x="250" y="40" width="400" height="80" rx="12" fill="#1c2733" stroke="#f4c95d" stroke-width="2"/>
+  <text x="450" y="75" fill="#ffffff" font-size="22" font-weight="bold" text-anchor="middle">project_proposal.md</text>
+  <text x="450" y="100" fill="#f4c95d" font-size="15" text-anchor="middle">input file</text>
+  <line x1="450" y1="120" x2="450" y2="160" stroke="#f4c95d" stroke-width="3"/>
+  <polygon points="450,168 442,152 458,152" fill="#f4c95d"/>
+  <rect x="200" y="170" width="500" height="100" rx="12" fill="#1c2733" stroke="#f4c95d" stroke-width="2"/>
+  <text x="450" y="205" fill="#ffffff" font-size="22" font-weight="bold" text-anchor="middle">Planner Agent (gpt-5.6-luna)</text>
+  <text x="450" y="230" fill="#cfd8e3" font-size="14" text-anchor="middle">in: proposal text</text>
+  <text x="450" y="250" fill="#cfd8e3" font-size="14" text-anchor="middle">out: slide_plan.json (4-6 slides: headline, description, narration)</text>
+  <line x1="450" y1="270" x2="450" y2="310" stroke="#f4c95d" stroke-width="3"/>
+  <polygon points="450,318 442,302 458,302" fill="#f4c95d"/>
+  <rect x="60" y="320" width="780" height="520" rx="16" fill="none" stroke="#f4c95d" stroke-width="2" stroke-dasharray="8,6"/>
+  <text x="450" y="350" fill="#f4c95d" font-size="16" font-weight="bold" text-anchor="middle">PARALLEL — one thread per slide (ThreadPoolExecutor)</text>
+  <rect x="100" y="370" width="700" height="90" rx="10" fill="#1c2733" stroke="#ffffff" stroke-width="1.5"/>
+  <text x="450" y="400" fill="#ffffff" font-size="18" font-weight="bold" text-anchor="middle">Critique Agent (gpt-5.6-luna)</text>
+  <text x="450" y="422" fill="#cfd8e3" font-size="13" text-anchor="middle">in: slide headline + description + narration</text>
+  <text x="450" y="440" fill="#cfd8e3" font-size="13" text-anchor="middle">out: strengths, weaknesses, suggestions</text>
+  <line x1="450" y1="460" x2="450" y2="480" stroke="#f4c95d" stroke-width="2"/>
+  <polygon points="450,486 444,474 456,474" fill="#f4c95d"/>
+  <rect x="100" y="490" width="700" height="90" rx="10" fill="#1c2733" stroke="#ffffff" stroke-width="1.5"/>
+  <text x="450" y="520" fill="#ffffff" font-size="18" font-weight="bold" text-anchor="middle">Revision Agent (gpt-5.6-luna)</text>
+  <text x="450" y="542" fill="#cfd8e3" font-size="13" text-anchor="middle">in: original slide + critique</text>
+  <text x="450" y="560" fill="#cfd8e3" font-size="13" text-anchor="middle">out: revised headline, description, narration</text>
+  <line x1="450" y1="580" x2="450" y2="600" stroke="#f4c95d" stroke-width="2"/>
+  <polygon points="450,606 444,594 456,594" fill="#f4c95d"/>
+  <rect x="100" y="610" width="330" height="100" rx="10" fill="#1c2733" stroke="#ffffff" stroke-width="1.5"/>
+  <text x="265" y="640" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">HTML Renderer</text>
+  <text x="265" y="662" fill="#cfd8e3" font-size="12" text-anchor="middle">in: revised headline</text>
+  <text x="265" y="680" fill="#cfd8e3" font-size="12" text-anchor="middle">out: slides/slide_N.html</text>
+  <rect x="470" y="610" width="330" height="100" rx="10" fill="#1c2733" stroke="#ffffff" stroke-width="1.5"/>
+  <text x="635" y="640" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">TTS (tts-1-hd)</text>
+  <text x="635" y="662" fill="#cfd8e3" font-size="12" text-anchor="middle">in: revised narration</text>
+  <text x="635" y="680" fill="#cfd8e3" font-size="12" text-anchor="middle">out: audio/slide_N.mp3</text>
+  <line x1="450" y1="850" x2="450" y2="890" stroke="#f4c95d" stroke-width="3"/>
+  <polygon points="450,898 442,882 458,882" fill="#f4c95d"/>
+  <rect x="200" y="900" width="500" height="90" rx="12" fill="#1c2733" stroke="#f4c95d" stroke-width="2"/>
+  <text x="450" y="932" fill="#ffffff" font-size="20" font-weight="bold" text-anchor="middle">Playwright (headless Chromium)</text>
+  <text x="450" y="955" fill="#cfd8e3" font-size="13" text-anchor="middle">in: slide_N.html  →  out: slide_N.png screenshots</text>
+  <line x1="450" y1="990" x2="450" y2="1030" stroke="#f4c95d" stroke-width="3"/>
+  <polygon points="450,1038 442,1022 458,1022" fill="#f4c95d"/>
+  <rect x="200" y="1040" width="500" height="90" rx="12" fill="#1c2733" stroke="#f4c95d" stroke-width="2"/>
+  <text x="450" y="1072" fill="#ffffff" font-size="20" font-weight="bold" text-anchor="middle">ffmpeg — per-slide clip</text>
+  <text x="450" y="1095" fill="#cfd8e3" font-size="13" text-anchor="middle">in: slide_N.png + slide_N.mp3  →  out: clip_N.mp4</text>
+  <line x1="450" y1="1130" x2="450" y2="1170" stroke="#f4c95d" stroke-width="3"/>
+  <polygon points="450,1178 442,1162 458,1162" fill="#f4c95d"/>
+  <rect x="200" y="1180" width="500" height="90" rx="12" fill="#1c2733" stroke="#f4c95d" stroke-width="2"/>
+  <text x="450" y="1212" fill="#ffffff" font-size="20" font-weight="bold" text-anchor="middle">ffmpeg — concat all clips</text>
+  <text x="450" y="1235" fill="#cfd8e3" font-size="13" text-anchor="middle">in: clip_1..clip_5.mp4  →  out: reel.mp4</text>
+  <line x1="450" y1="1270" x2="450" y2="1310" stroke="#f4c95d" stroke-width="3"/>
+  <polygon points="450,1318 442,1302 458,1302" fill="#f4c95d"/>
+  <rect x="300" y="1320" width="300" height="80" rx="12" fill="#f4c95d"/>
+  <text x="450" y="1355" fill="#101820" font-size="22" font-weight="bold" text-anchor="middle">reel.mp4</text>
+  <text x="450" y="1378" fill="#101820" font-size="14" text-anchor="middle">final output (~30-60s)</text>
+</svg>

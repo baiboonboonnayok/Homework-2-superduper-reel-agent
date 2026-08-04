@@ -7,7 +7,7 @@
     margin: 0;
     width: 1080px;
     height: 1920px;
-    background: #101820;
+    background: linear-gradient(180deg, #101820 0%, #1a2531 100%);
     color: #ffffff;
     font-family: 'Helvetica Neue', Arial, sans-serif;
     display: flex;
@@ -15,23 +15,36 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 80px;
+    padding: 100px;
     box-sizing: border-box;
   }
-  h1 {
-    font-size: 56px;
+  .tag {
+    letter-spacing: 4px;
+    font-size: 24px;
     color: #f4c95d;
-    margin-bottom: 40px;
+    font-weight: 600;
+    margin-bottom: 60px;
+    text-transform: uppercase;
   }
-  p {
-    font-size: 32px;
-    line-height: 1.5;
-    max-width: 800px;
+  h1 {
+    font-size: 88px;
+    line-height: 1.15;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0;
+  }
+  .accent-line {
+    width: 120px;
+    height: 6px;
+    background: #f4c95d;
+    margin-top: 60px;
+    border-radius: 3px;
   }
 </style>
 </head>
 <body>
-  <h1>SuperDuper</h1>
-  <p>End on a clean, confident SuperDuper brand-reveal frame using a real Bangkok workshop detail—such as pattern cutting, stitching, sampling, or fabric inspection—with finished garments subtly visible in the background. Establish a clear hierarchy: SuperDuper logo/name first, followed by the short headline “Your next collection starts here.” Add one prominent CTA: “Discover SuperDuper OEM.” Include a short URL and, if used, a high-contrast QR code labeled “Scan to explore OEM,” placed on a quiet solid panel rather than over fabric or visual texture. Keep any supporting copy minimal, such as “Sampling • Production • Small-batch support,” only if accurate. Ensure the logo, headline, CTA, and scan action remain legible on mobile.</p>
+  <div class="tag">SUPERDUPER · MEN'S APPAREL OEM</div>
+  <h1>Make Your Next Collection</h1>
+  <div class="accent-line"></div>
 </body>
 </html>

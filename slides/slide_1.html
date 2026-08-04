@@ -7,7 +7,7 @@
     margin: 0;
     width: 1080px;
     height: 1920px;
-    background: #101820;
+    background: linear-gradient(180deg, #101820 0%, #1a2531 100%);
     color: #ffffff;
     font-family: 'Helvetica Neue', Arial, sans-serif;
     display: flex;
@@ -15,23 +15,36 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 80px;
+    padding: 100px;
     box-sizing: border-box;
   }
-  h1 {
-    font-size: 56px;
+  .tag {
+    letter-spacing: 4px;
+    font-size: 24px;
     color: #f4c95d;
-    margin-bottom: 40px;
+    font-weight: 600;
+    margin-bottom: 60px;
+    text-transform: uppercase;
   }
-  p {
-    font-size: 32px;
-    line-height: 1.5;
-    max-width: 800px;
+  h1 {
+    font-size: 88px;
+    line-height: 1.15;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0;
+  }
+  .accent-line {
+    width: 120px;
+    height: 6px;
+    background: #f4c95d;
+    margin-top: 60px;
+    border-radius: 3px;
   }
 </style>
 </head>
 <body>
-  <h1>SuperDuper</h1>
-  <p>Open on a neatly organized rack of men’s garments, with visible swatches, labels, and production notes. Introduce brief visual friction: scattered tags, a blurred handoff, and a stalled timeline. Snap into a clean SuperDuper-branded arrangement as the camera zooms purposefully onto a garment label or production tag. Use a black-and-cream palette with one consistent accent color highlighting “lost” and key production details. On-screen hierarchy: “Don’t let your next collection get lost.” Supporting line: “A simpler OEM partner for men’s apparel.” Finish with the SuperDuper OEM lockup and a subtle “Bangkok” location cue.</p>
+  <div class="tag">SUPERDUPER · MEN'S APPAREL OEM</div>
+  <h1>Bangkok-Made Menswear, Built for Brands</h1>
+  <div class="accent-line"></div>
 </body>
 </html>

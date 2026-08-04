@@ -1,10 +1,12 @@
 import os
 import json
+import subprocess
 from concurrent.futures import ThreadPoolExecutor
 from dotenv import load_dotenv
 from pydantic import BaseModel
 from pydantic_ai import Agent
 from openai import OpenAI
+from playwright.sync_api import sync_playwright
 
 load_dotenv()
 tts_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -12,7 +14,8 @@ tts_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 class Slide(BaseModel):
     slide_number: int
-    description: str
+    headline: str       # short on-screen text, 3-8 words, the ACTUAL words shown on the slide
+    description: str    # creative brief: what's on screen and visuals (for grading docs)
     narration: str
 
 
@@ -27,6 +30,7 @@ class Critique(BaseModel):
 
 
 class RevisedSlide(BaseModel):
+    headline: str
     description: str
     narration: str
 
@@ -36,9 +40,13 @@ agent = Agent(
     output_type=SlidePlan,
     system_prompt=(
         "You are a video reel planner. Given a project proposal, create a plan "
-        "for 4 to 6 slides that pitch the project. Each slide needs a description "
-        "of what's on screen (text and visuals) and narration text to be spoken "
-        "aloud, kept short enough to read in about 15 seconds or less."
+        "for 4 to 6 slides that pitch the project. For each slide, provide: "
+        "(1) a headline, which is the SHORT actual on-screen text, 3 to 8 words "
+        "maximum, punchy and readable in one glance, written as real copy a "
+        "viewer would read, never a camera direction or shot description; "
+        "(2) a description, a creative brief of what's on screen and visuals, "
+        "for internal planning notes; (3) narration text to be spoken aloud, "
+        "short enough to read in about 15 seconds or less."
     ),
 )
 
@@ -47,9 +55,11 @@ critique_agent = Agent(
     output_type=Critique,
     system_prompt=(
         "You are a critical creative director reviewing one slide from a short "
-        "promotional video reel. Given the slide's on-screen description and "
-        "its narration, identify what's strong, what's weak or confusing, and "
-        "give specific suggestions to improve both the visual and the narration."
+        "promotional video reel. Given the slide's headline, description, and "
+        "narration, identify what's strong, what's weak or confusing, and give "
+        "specific suggestions. Be especially critical if the headline is too "
+        "long, generic, or reads like a shot description instead of punchy "
+        "on-screen copy."
     ),
 )
 
@@ -58,14 +68,15 @@ revision_agent = Agent(
     output_type=RevisedSlide,
     system_prompt=(
         "You revise a video reel slide based on critique feedback. Given the "
-        "original description and narration, plus the critique and suggestions, "
-        "produce an improved description and improved narration. Keep the "
-        "narration short enough to read aloud in about 15 seconds or less."
+        "original headline, description, and narration, plus the critique and "
+        "suggestions, produce an improved version. The headline MUST be short "
+        "on-screen text, 3 to 8 words maximum, punchy, never a shot description. "
+        "Keep the narration short enough to read aloud in about 15 seconds or less."
     ),
 )
 
 
-def render_slide_html(description):
+def render_slide_html(headline, tag_text="SUPERDUPER · MEN'S APPAREL OEM"):
     return f"""<!DOCTYPE html>
 <html>
 <head>
@@ -75,7 +86,7 @@ def render_slide_html(description):
     margin: 0;
     width: 1080px;
     height: 1920px;
-    background: #101820;
+    background: linear-gradient(180deg, #101820 0%, #1a2531 100%);
     color: #ffffff;
     font-family: 'Helvetica Neue', Arial, sans-serif;
     display: flex;
@@ -83,30 +94,43 @@ def render_slide_html(description):
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 80px;
+    padding: 100px;
     box-sizing: border-box;
   }}
-  h1 {{
-    font-size: 56px;
+  .tag {{
+    letter-spacing: 4px;
+    font-size: 24px;
     color: #f4c95d;
-    margin-bottom: 40px;
+    font-weight: 600;
+    margin-bottom: 60px;
+    text-transform: uppercase;
   }}
-  p {{
-    font-size: 32px;
-    line-height: 1.5;
-    max-width: 800px;
+  h1 {{
+    font-size: 88px;
+    line-height: 1.15;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0;
+  }}
+  .accent-line {{
+    width: 120px;
+    height: 6px;
+    background: #f4c95d;
+    margin-top: 60px;
+    border-radius: 3px;
   }}
 </style>
 </head>
 <body>
-  <h1>SuperDuper</h1>
-  <p>{description}</p>
+  <div class="tag">{tag_text}</div>
+  <h1>{headline}</h1>
+  <div class="accent-line"></div>
 </body>
 </html>
 """
 
 
-def render_visual_slide(description):
+def render_visual_slide(headline):
     return f"""<!DOCTYPE html>
 <html>
 <head>
@@ -116,7 +140,7 @@ def render_visual_slide(description):
     margin: 0;
     width: 1080px;
     height: 1920px;
-    background: #101820;
+    background: linear-gradient(180deg, #101820 0%, #1a2531 100%);
     color: #ffffff;
     font-family: 'Helvetica Neue', Arial, sans-serif;
     display: flex;
@@ -127,15 +151,16 @@ def render_visual_slide(description):
     box-sizing: border-box;
   }}
   h1 {{
-    font-size: 52px;
+    font-size: 58px;
     color: #f4c95d;
-    margin-bottom: 100px;
+    margin-bottom: 90px;
     text-align: center;
+    font-weight: 800;
   }}
   .steps {{
     display: flex;
     flex-direction: column;
-    gap: 60px;
+    gap: 55px;
     width: 100%;
   }}
   .step {{
@@ -161,7 +186,8 @@ def render_visual_slide(description):
     border: 2px solid #f4c95d;
     border-radius: 16px;
     padding: 30px 40px;
-    font-size: 30px;
+    font-size: 34px;
+    font-weight: 600;
     flex-grow: 1;
   }}
   .arrow {{
@@ -172,7 +198,7 @@ def render_visual_slide(description):
 </style>
 </head>
 <body>
-  <h1>How SuperDuper Works</h1>
+  <h1>{headline}</h1>
   <div class="steps">
     <div class="step">
       <div class="step-number">1</div>
@@ -195,12 +221,16 @@ def render_visual_slide(description):
 
 
 def process_slide(slide):
-    """Critique, revise, and produce final HTML + audio for one slide (runs in its own thread)."""
-    original_text = f"Description: {slide.description}\nNarration: {slide.narration}"
+    original_text = (
+        f"Headline: {slide.headline}\n"
+        f"Description: {slide.description}\n"
+        f"Narration: {slide.narration}"
+    )
     critique_result = critique_agent.run_sync(original_text)
     critique = critique_result.output
 
     revision_input = (
+        f"Original headline: {slide.headline}\n"
         f"Original description: {slide.description}\n"
         f"Original narration: {slide.narration}\n"
         f"Strengths: {critique.strengths}\n"
@@ -211,9 +241,9 @@ def process_slide(slide):
     revised = revision_result.output
 
     if slide.slide_number == 3:
-        html_content = render_visual_slide(revised.description)
+        html_content = render_visual_slide(revised.headline)
     else:
-        html_content = render_slide_html(revised.description)
+        html_content = render_slide_html(revised.headline)
     with open(f"slides/slide_{slide.slide_number}.html", "w") as f:
         f.write(html_content)
 
@@ -227,9 +257,11 @@ def process_slide(slide):
 
     return {
         "slide_number": slide.slide_number,
+        "original_headline": slide.headline,
         "original_description": slide.description,
         "original_narration": slide.narration,
         "critique": critique.model_dump(),
+        "revised_headline": revised.headline,
         "revised_description": revised.description,
         "revised_narration": revised.narration,
     }
@@ -243,6 +275,7 @@ result = agent.run_sync(proposal_text)
 
 for slide in result.output.slides:
     print(f"Slide {slide.slide_number}")
+    print(f"  Headline: {slide.headline}")
     print(f"  On screen: {slide.description}")
     print(f"  Narration: {slide.narration}")
     print()
@@ -268,3 +301,62 @@ with open("ai_grading/critique_feedback.json", "w") as f:
 print("Saved critique and feedback to ai_grading/critique_feedback.json")
 print("Saved HTML slides to slides/")
 print("Saved narration audio to audio/")
+
+# Step 3: screenshot each HTML slide, then combine with audio into a video
+
+def get_audio_duration(path):
+    result = subprocess.run(
+        ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+         "-of", "default=noprint_wrappers=1:nokey=1", path],
+        capture_output=True, text=True
+    )
+    return float(result.stdout.strip())
+
+
+os.makedirs("video_clips", exist_ok=True)
+
+with sync_playwright() as p:
+    browser = p.chromium.launch()
+    page = browser.new_page(viewport={"width": 1080, "height": 1920})
+
+    for record in critique_records:
+        n = record["slide_number"]
+        html_path = os.path.abspath(f"slides/slide_{n}.html")
+        image_path = f"slides/slide_{n}.png"
+        page.goto(f"file://{html_path}")
+        page.screenshot(path=image_path)
+
+    browser.close()
+
+for record in critique_records:
+    n = record["slide_number"]
+    image_path = f"slides/slide_{n}.png"
+    audio_path = f"audio/slide_{n}.mp3"
+    clip_path = f"video_clips/clip_{n}.mp4"
+    duration = get_audio_duration(audio_path)
+
+    subprocess.run([
+        "ffmpeg", "-y",
+        "-loop", "1", "-i", image_path,
+        "-i", audio_path,
+        "-c:v", "libx264", "-tune", "stillimage",
+        "-c:a", "aac", "-b:a", "192k",
+        "-pix_fmt", "yuv420p",
+        "-t", str(duration),
+        clip_path
+    ], check=True)
+
+with open("video_clips/concat_list.txt", "w") as f:
+    for record in sorted(critique_records, key=lambda r: r["slide_number"]):
+        n = record["slide_number"]
+        f.write(f"file 'clip_{n}.mp4'\n")
+
+subprocess.run([
+    "ffmpeg", "-y",
+    "-f", "concat", "-safe", "0",
+    "-i", "video_clips/concat_list.txt",
+    "-c", "copy",
+    "reel.mp4"
+], check=True)
+
+print("Saved final video to reel.mp4")
