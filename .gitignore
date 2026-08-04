@@ -2,3 +2,6 @@
 __pycache__
 *.pyc
 audio/
+video_clips/
+reel.mp4
+slides/*.png
