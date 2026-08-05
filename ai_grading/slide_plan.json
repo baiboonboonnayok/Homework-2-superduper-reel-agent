@@ -2,58 +2,58 @@
   "slides": [
     {
       "slide_number": 1,
-      "headline": "See Beyond The Stars",
+      "headline": "Know Exactly What To Order",
       "description": "Title slide: kicker label, headline text, and a thin accent line on a dark gradient background. No bullet list, diagram, or chart is shown.",
       "bullets": [
-        "Turn scattered reviews into structured guest intelligence",
-        "Reveal what truly drives Bangkok fine dining satisfaction",
-        "Replace gut feeling with evidence-based operational decisions"
+        "MenuMatch turns uncertainty into confident decisions",
+        "Recommendations arrive in seconds, not endless searching",
+        "Every suggestion reflects real customer experiences"
       ],
-      "narration": "Thousands of reviews contain the answers, but star ratings hide the detail. This platform turns fragmented guest feedback into clear, actionable intelligence for Bangkok\u2019s fine dining operators."
+      "narration": "MenuMatch answers the question every unfamiliar diner asks: what should I order here? It transforms a confusing menu into confident, evidence-backed choices."
     },
     {
       "slide_number": 2,
-      "headline": "One Voice, Many Languages",
+      "headline": "From Menu Photo To Restaurant Match",
       "description": "Editorial slide: kicker label, headline, and a bordered box containing the slide's bullet points as the on-screen text.",
       "bullets": [
-        "Collect 15,000 to 30,000 reviews across 30 to 50 restaurants",
-        "Clean multilingual feedback for consistent analysis",
-        "Classify sentiment across every meaningful guest experience aspect"
+        "One photo captures dishes, prices, categories, and images",
+        "GPS and menu clues identify the exact restaurant branch",
+        "Confidence scores surface uncertainty before recommendations"
       ],
-      "narration": "We build a scalable AI research pipeline, gathering and preparing reviews across Bangkok\u2019s fine dining market, then translating complex feedback into consistent, comparable insight."
+      "narration": "The experience starts with one menu photo. AI reads the menu, combines it with location signals, and confirms the restaurant with a transparent confidence score."
     },
     {
       "slide_number": 3,
-      "headline": "Benchmark What Matters",
+      "headline": "Reviews Become Dish-Level Intelligence",
       "description": "Illustrated pipeline diagram: kicker, headline, and numbered circular stages connected by downward arrows, each labeled with a step of the process.",
       "bullets": [
-        "Rank restaurants with an aspect-based AI Restaurant Score",
-        "Compare food, service, atmosphere, value, and more",
-        "Map operational excellence against guest experience"
+        "AI connects reviews to specific menu items",
+        "Misspellings, translations, and descriptions still match",
+        "Sentiment analysis explains what diners actually liked"
       ],
-      "narration": "The result goes beyond aggregate ratings. Operators can see how they compare across the categories that shape loyalty, reputation, and the complete dining experience."
+      "narration": "Instead of treating reviews as general opinions, MenuMatch identifies dish-level signals, even across languages, misspellings, and indirect descriptions, then explains the reasons behind sentiment."
     },
     {
       "slide_number": 4,
-      "headline": "Find The Moments That Matter",
+      "headline": "Five Recommendations, One Clear Answer",
       "description": "Scorecard slide: kicker, headline, and a bordered box listing label/value stat rows summarizing the project's real scope.",
       "bullets": [
-        "Trace sentiment from reservation through payment",
-        "Identify recurring praise, complaints, and language themes",
-        "Track performance shifts over time and after changes"
+        "Top picks span appetisers, mains, signatures, desserts, and drinks",
+        "Rankings combine popularity, sentiment, recency, and photos",
+        "Each recommendation includes plain-language review evidence"
       ],
-      "narration": "Customer journey mapping shows exactly where sentiment rises or falls, while trend and theme analysis reveal recurring issues and whether improvements are actually working."
+      "narration": "Customers receive a curated pick for every major category. Rankings balance popularity, sentiment, recency, signature status, and photo frequency, with evidence that is easy to understand."
     },
     {
       "slide_number": 5,
-      "headline": "Turn Insight Into Action",
+      "headline": "Trust That Improves With Every Choice",
       "description": "Closing slide: kicker label and headline on a dark gradient background, matching the opening slide's style. No bullet list, diagram, or chart is shown.",
       "bullets": [
-        "Highlight each restaurant\u2019s strengths, weaknesses, and quick wins",
-        "Prioritize investments using competitive evidence",
-        "Deliver a clear one-page benchmark report"
+        "Human confirmation handles uncertain restaurant or dish matches",
+        "Likes capture personal feedback for better future rankings",
+        "MenuMatch makes discovery faster, clearer, and more trustworthy"
       ],
-      "narration": "Every restaurant receives a practical action plan: its market position, biggest opportunities, competitive context, and the next improvements most likely to create guest value."
+      "narration": "Trust is built into the product. When AI is uncertain, customers can confirm the match, and every like helps MenuMatch make future recommendations more personal and precise."
     }
   ]
 }

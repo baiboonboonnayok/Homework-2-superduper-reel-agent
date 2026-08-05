@@ -1,56 +1,49 @@
-# Multimodal Fine Dining Consumer Insight Observer
+# MenuMatch AI: An Agentic Restaurant Menu Recommendation Application
 
 ## Problem
-Bangkok's fine dining restaurants generate thousands of Google Reviews, but
-that feedback is scattered across free text, star ratings, and multiple
-languages. Operators have no efficient way to see past an aggregate star
-rating to understand which specific parts of the guest experience are
-working and which aren't, whether a complaint is really about food,
-service, ambience, waiting time, or price. Reading reviews manually
-doesn't scale, so operators end up making decisions on gut feeling rather
-than on what customers are consistently saying.
+Restaurant menus are hard to navigate, especially for tourists or first
+time customers facing an unfamiliar restaurant, a menu in another
+language, or dozens of dishes with no clear standout. Customers often
+end up manually searching Google reviews, social media, and food blogs
+before deciding what to order, which takes time and often still leaves
+them uncertain. Reviews discuss a restaurant generally but rarely make
+it obvious which specific dishes are actually worth ordering.
 
 ## Audience
-Bangkok fine dining restaurant owners and operations managers who want a
-structured, data-driven view of guest sentiment to guide operational
-improvements, benchmark themselves against competitors, and prioritize
-where to invest limited resources.
+Tourists and first time customers at unfamiliar restaurants, people who
+find large menus overwhelming, customers who cannot easily read the
+menu's language, and anyone who wants a recommendation backed by real
+reviews rather than guesswork.
 
 ## Scope
-We will build an AI research pipeline that:
-1. Collects Google Reviews from roughly 30-50 Bangkok fine dining
-   restaurants (about 15,000-30,000 reviews total), capturing restaurant
-   name, rating, review count, review text, date, reviewer language, and
-   price level.
-2. Cleans and prepares the review data for analysis.
-3. Uses an LLM to classify each review across business-relevant aspects,
-   including food quality, taste, service, staff friendliness, waiting
-   time, ambience, interior design, value for money, drinks, dessert,
-   reservation, parking, and cleanliness, as positive, neutral, or
-   negative (Aspect-Based Sentiment Analysis).
-4. Benchmarks restaurants against each other using an AI Restaurant Score
-   built from aspect-level sentiment, plus category-by-category
-   comparisons.
-5. Generates strategic recommendations for each restaurant.
+We will build an agentic AI application that:
+1. Takes a photo of a restaurant menu from the user's phone.
+2. Uses OCR and a vision language model to read menu items, prices,
+   categories, and dish images.
+3. Uses GPS location plus the detected restaurant name to identify the
+   exact restaurant and branch.
+4. Retrieves publicly available restaurant reviews through permitted
+   sources.
+5. Matches review mentions, including misspellings, translations, and
+   descriptive references, to specific menu items.
+6. Runs sentiment analysis on each dish mention to determine positive,
+   neutral, or negative reception and the reasons behind it.
+7. Ranks dishes using review mention frequency, sentiment ratio,
+   recency, signature labeling, and photo frequency.
+8. Presents the top recommended appetiser, main dish, signature dish,
+   dessert, and drink, each with a plain language explanation and
+   supporting review evidence.
 
 ## Key Outputs
-- An overall AI Restaurant Score ranking that goes beyond simple star
-  ratings
-- Category benchmarking across food, service, atmosphere, and value
-- A positioning map plotting restaurants on operational excellence versus
-  guest experience
-- Competitive radar charts across the aspect categories
-- An opportunity matrix per restaurant highlighting its biggest strength,
-  biggest weakness, and quick wins
-- Customer journey mapping, from reservation through arrival, waiting,
-  ordering, food, dessert, and payment, showing where sentiment clusters
-- Word cloud and theme analysis of recurring positive and negative
-  language
-- Trend analysis over time, such as whether service is improving or a
-  renovation changed sentiment
-- A one-page benchmark report per restaurant summarizing its score,
-  strengths, weaknesses, market position, competitors, and priority
-  recommendations
+- Restaurant identification with a confidence score
+- Category by category dish recommendations (appetiser, main, signature,
+  dessert, drink)
+- A short evidence based explanation for every recommendation, grounded
+  in real review excerpts
+- A popularity and sentiment score per recommended dish
+- A like button that stores user feedback to improve future rankings
+- Human in the loop prompts when the restaurant or a dish match is
+  uncertain
 
-This gives fine dining operators, for the first time, a clear,
-evidence-based picture of exactly where they stand and what to fix first.
+This gives customers, for the first time, a fast and trustworthy answer
+to "what should I order here" backed by real reviews instead of guesses.

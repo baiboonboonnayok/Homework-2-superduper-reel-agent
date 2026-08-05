@@ -22,7 +22,7 @@ openai_client = AsyncOpenAI(api_key=api_key)
 FADE_SECONDS = 0.25
 GAP_SECONDS = 0.2
 
-KICKER = "Bangkok Fine Dining Intelligence"
+KICKER = "MenuMatch AI"
 
 AGENT_FLOW_SVG = """<svg width="960" height="1150" viewBox="0 0 960 1150" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -31,11 +31,11 @@ AGENT_FLOW_SVG = """<svg width="960" height="1150" viewBox="0 0 960 1150" xmlns=
     </marker>
   </defs>
 
-  <text x="480" y="36" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" font-weight="700" fill="#1a2531">Fine Dining Reel Agent — pipeline overview</text>
+  <text x="480" y="36" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" font-weight="700" fill="#1a2531">MenuMatch AI Reel Agent — pipeline overview</text>
 
   <rect x="280" y="60" width="400" height="64" rx="10" fill="#1a2531" stroke="#d4af37" stroke-width="1.5"/>
   <text x="480" y="85" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="17" font-weight="600" fill="#ffffff">project_proposal.md</text>
-  <text x="480" y="107" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" fill="#aab4bf">Fine dining ABSA project (input)</text>
+  <text x="480" y="107" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" fill="#aab4bf">MenuMatch AI project (input)</text>
 
   <line x1="480" y1="124" x2="480" y2="164" stroke="#6b7785" stroke-width="1.8" marker-end="url(#arrow)"/>
 

@@ -1,4 +1,4 @@
-# Fine Dining Reel Agent
+# MenuMatch AI Reel Agent
 
 An AI agent that reads `project_proposal.md` and produces a short narrated
 video reel pitching the project, with slide planning, critique-and-revision,
