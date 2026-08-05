@@ -2,53 +2,58 @@
   "slides": [
     {
       "slide_number": 1,
-      "headline": "See What Guests Really Mean",
+      "headline": "See Beyond The Stars",
+      "description": "Elegant opening frame with a refined Bangkok dining backdrop, a central contrast between aggregate star ratings and aspect-level insight, and a restrained data motif.",
       "bullets": [
-        "15,000\u201330,000 reviews become usable insight",
-        "Multilingual feedback reveals experience-specific sentiment",
-        "Move beyond aggregate ratings and gut feeling"
+        "15,000\u201330,000 reviews, one clear view",
+        "Multilingual feedback, unified intelligently",
+        "Decisions grounded in guest reality"
       ],
-      "narration": "Bangkok\u2019s fine dining feedback is rich but fragmented. We turn thousands of multilingual reviews into a clear view of what guests truly experience."
+      "narration": "Bangkok\u2019s finest restaurants already have the answers in their reviews. We reveal the patterns hidden beyond the stars."
     },
     {
       "slide_number": 2,
-      "headline": "One Voice Across Every Review",
+      "headline": "Every Voice, Precisely Read",
+      "description": "Clean four-stage pipeline diagram showing collection, language-aware preparation, AI aspect analysis, and structured insight across 30\u201350 restaurants.",
       "bullets": [
-        "Collect reviews from 30\u201350 Bangkok restaurants",
-        "Clean language, ratings, dates, and pricing signals",
-        "Classify sentiment across twelve operational aspects"
+        "Collect reviews across Bangkok\u2019s fine dining scene",
+        "Decode sentiment across twelve guest experience aspects",
+        "Turn unstructured feedback into comparable signals"
       ],
-      "narration": "Our AI research pipeline gathers and prepares the market\u2019s review data, then identifies whether each experience aspect is positive, neutral, or negative."
+      "narration": "Our AI research pipeline gathers, cleans, and interprets thousands of multilingual reviews across the experiences that matter most."
     },
     {
       "slide_number": 3,
-      "headline": "Benchmark What Drives Loyalty",
+      "headline": "Benchmark What Guests Feel",
+      "description": "Premium analytics dashboard composition featuring an AI Restaurant Score, competitive radar chart, and positioning map contrasting operational excellence with guest experience.",
       "bullets": [
-        "AI Restaurant Score goes beyond star ratings",
+        "Rank performance beyond simple star averages",
         "Compare food, service, atmosphere, and value",
-        "Map operational excellence against guest experience"
+        "See competitive position at a glance"
       ],
-      "narration": "Operators gain a defensible competitive benchmark, showing how restaurants perform across the dimensions that shape satisfaction, reputation, and return visits."
+      "narration": "The result is a more meaningful benchmark: a restaurant score built from what guests actually praise, question, and remember."
     },
     {
       "slide_number": 4,
-      "headline": "Find The Moments That Matter",
+      "headline": "Find The Moment That Matters",
+      "description": "Horizontal customer journey map from reservation through payment, with sentiment clusters, recurring themes, and highlighted friction points along the journey.",
       "bullets": [
-        "Trace sentiment across the complete customer journey",
-        "Expose recurring strengths, weaknesses, and themes",
-        "Track changes after improvements or renovations"
+        "Trace sentiment from reservation to payment",
+        "Locate recurring friction and delight",
+        "Spot changes across time and experience"
       ],
-      "narration": "Customer journey analysis shows exactly where sentiment rises or falls, while theme and trend analysis reveals what is changing and why."
+      "narration": "We map the complete guest journey, showing exactly where sentiment strengthens, breaks down, or changes over time."
     },
     {
       "slide_number": 5,
-      "headline": "Turn Evidence Into Action",
+      "headline": "From Insight To Action",
+      "description": "One-page executive benchmark report shown as a polished editorial dashboard, combining strengths, weaknesses, quick wins, market position, and prioritized recommendations.",
       "bullets": [
-        "Receive a focused one-page restaurant benchmark",
-        "Prioritize biggest weakness and fastest wins",
-        "Guide investment with clear strategic recommendations"
+        "Identify one defining strength and weakness",
+        "Prioritize practical, high-impact improvements",
+        "Convert evidence into a sharper guest experience"
       ],
-      "narration": "Every restaurant receives an actionable benchmark: its position, strongest advantage, most urgent weakness, and practical priorities for improving the guest experience."
+      "narration": "Each restaurant receives a focused action plan: its position, its priorities, and the clearest opportunities to improve what guests value most."
     }
   ]
 }

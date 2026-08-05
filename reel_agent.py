@@ -50,6 +50,7 @@ body {
 class Slide(BaseModel):
     slide_number: int
     headline: str
+    description: str     # what's on screen: text AND visual treatment, for grading notes (not rendered directly)
     bullets: List[str]   # 2-3 clean on-screen phrases, generated directly (never regex-split from prose)
     narration: str
 
@@ -66,6 +67,7 @@ class Critique(BaseModel):
 
 class RevisedSlide(BaseModel):
     headline: str
+    description: str
     bullets: List[str]
     narration: str
 
@@ -90,11 +92,15 @@ planner_agent = Agent(
         "You are an expert luxury video producer. Given a project proposal, "
         "produce a plan for 4 to 6 slides that pitch the project. For each "
         "slide, provide: (1) a headline, short punchy on-screen text a "
-        "viewer would read, 3 to 8 words, never a shot description; (2) 2 to "
-        "3 clean bullet phrases, each a complete short phrase under 12 "
-        "words, plain text with no markdown, no bullet characters, and no "
-        "trailing hyphens or dashes; (3) narration text to be spoken aloud, "
-        "readable in about 10 seconds or less."
+        "viewer would read, 3 to 8 words, never a shot description; (2) a "
+        "description of what is on screen for this slide, covering both the "
+        "on-screen text and the visual treatment, for example 'numbered "
+        "pipeline diagram with four stages' or 'two contrasting stat cards', "
+        "for internal grading notes only, this is not shown on screen "
+        "itself; (3) 2 to 3 clean bullet phrases, each a complete short "
+        "phrase under 12 words, plain text with no markdown, no bullet "
+        "characters, and no trailing hyphens or dashes; (4) narration text "
+        "to be spoken aloud, readable in about 10 seconds or less."
     ),
 )
 
@@ -103,10 +109,11 @@ critique_agent = Agent(
     output_type=Critique,
     system_prompt=(
         "You are an art director critiquing one slide from a luxury "
-        "promotional video reel. Given its headline, bullets, and "
-        "narration, identify what's strong, what's weak, and give specific "
-        "suggestions. Be critical of generic phrasing or a headline that "
-        "reads like a shot description instead of on-screen copy."
+        "promotional video reel. Given its headline, description, bullets, "
+        "and narration, identify what's strong, what's weak, and give "
+        "specific suggestions. Be critical of generic phrasing or a "
+        "headline that reads like a shot description instead of on-screen "
+        "copy."
     ),
 )
 
@@ -115,8 +122,10 @@ revision_agent = Agent(
     output_type=RevisedSlide,
     system_prompt=(
         "You revise a luxury video reel slide based on critique feedback. "
-        "Produce an improved headline (3 to 8 words), 2 to 3 clean bullet "
-        "phrases (plain text, no markdown, no bullet characters, no "
+        "Produce an improved headline (3 to 8 words), an updated "
+        "description of what is on screen (text and visual treatment, for "
+        "internal grading notes, not shown on screen itself), 2 to 3 clean "
+        "bullet phrases (plain text, no markdown, no bullet characters, no "
         "trailing hyphens), and narration readable in about 10 seconds or "
         "less."
     ),
@@ -291,6 +300,7 @@ def render_scorecard_slide(headline, items):
 async def process_slide(slide, total_slides, pipeline_steps, scorecard_items):
     original_text = (
         f"Headline: {slide.headline}\n"
+        f"Description: {slide.description}\n"
         f"Bullets: {slide.bullets}\n"
         f"Narration: {slide.narration}"
     )
@@ -299,6 +309,7 @@ async def process_slide(slide, total_slides, pipeline_steps, scorecard_items):
 
     revision_input = (
         f"Original headline: {slide.headline}\n"
+        f"Original description: {slide.description}\n"
         f"Original bullets: {slide.bullets}\n"
         f"Original narration: {slide.narration}\n"
         f"Strengths: {critique.strengths}\n"
@@ -335,10 +346,12 @@ async def process_slide(slide, total_slides, pipeline_steps, scorecard_items):
         "slide_number": slide.slide_number,
         "slide_type": slide_type,
         "original_headline": slide.headline,
+        "original_description": slide.description,
         "original_bullets": slide.bullets,
         "original_narration": slide.narration,
         "critique": critique.model_dump(),
         "revised_headline": revised.headline,
+        "revised_description": revised.description,
         "revised_bullets": revised.bullets,
         "revised_narration": revised.narration,
     }
@@ -415,10 +428,6 @@ def build_video(slide_numbers):
             video = page.video
             context.close()
 
-            # Name the recording by slide number right away. Playwright's
-            # default filenames are random and don't sort in creation
-            # order, which can silently pair the wrong audio with the
-            # wrong slide later.
             video.save_as(f"video_clips/raw_webm/slide_{n}.webm")
 
         browser.close()
