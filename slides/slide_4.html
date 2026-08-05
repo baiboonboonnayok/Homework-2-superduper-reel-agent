@@ -7,8 +7,9 @@
     margin: 0;
     width: 1080px;
     height: 1920px;
-    background: linear-gradient(180deg, #101820 0%, #1a2531 100%);
-    color: #ffffff;
+    background: radial-gradient(circle at 20% 15%, #4a1942 0%, transparent 45%),
+                linear-gradient(160deg, #1b0f24 0%, #3b1029 100%);
+    color: #f5ece0;
     font-family: 'Helvetica Neue', Arial, sans-serif;
     display: flex;
     flex-direction: column;
@@ -18,33 +19,38 @@
     padding: 100px;
     box-sizing: border-box;
   }
-  .tag {
-    letter-spacing: 4px;
-    font-size: 24px;
-    color: #f4c95d;
-    font-weight: 600;
-    margin-bottom: 60px;
-    text-transform: uppercase;
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(90deg, #e8b04b, #f4d58d);
+    color: #2a1608;
+    font-weight: 800;
+    font-size: 26px;
+    letter-spacing: 1px;
+    padding: 16px 36px;
+    border-radius: 999px;
+    margin-bottom: 70px;
   }
   h1 {
-    font-size: 88px;
-    line-height: 1.15;
+    font-size: 84px;
+    line-height: 1.18;
     font-weight: 800;
     color: #ffffff;
     margin: 0;
   }
   .accent-line {
-    width: 120px;
+    width: 130px;
     height: 6px;
-    background: #f4c95d;
+    background: linear-gradient(90deg, #e8b04b, #f4d58d);
     margin-top: 60px;
     border-radius: 3px;
   }
 </style>
 </head>
 <body>
-  <div class="tag">SUPERDUPER · MEN'S APPAREL OEM</div>
-  <h1>Your Idea, Made Real</h1>
+  <div class="badge">🔎 AI RESTAURANT INSIGHTS</div>
+  <h1>See Where Guest Experience Drops</h1>
   <div class="accent-line"></div>
 </body>
 </html>

@@ -2,33 +2,38 @@
   "slides": [
     {
       "slide_number": 1,
-      "headline": "Your Next OEM Partner",
-      "description": "Open with a bold, high-contrast brand introduction. Show SuperDuper as a credible Bangkok-based OEM manufacturer, using clean typography, subtle garment textures, and a fast-paced social-first layout. Include a small location cue: Pratunam Market, Bangkok.",
-      "narration": "Looking for a reliable OEM partner for your next clothing collection? Meet SuperDuper, a Bangkok manufacturer built for growing apparel brands."
+      "headline": "Stars Don\u2019t Tell The Whole Story",
+      "description": "Open with a striking split-screen: a familiar Google star rating on one side, and a dense multilingual review stream on the other. Layer in Bangkok fine dining imagery and subtle signals for food, service, ambience, waiting, and value to show how much insight is hidden beneath one number.",
+      "narration": "Bangkok\u2019s fine dining reviews contain thousands of valuable signals\u2014but they\u2019re scattered across languages, ratings, and free text. A star average can\u2019t tell operators what guests truly experience.",
+      "emoji": "\ud83d\udd0e"
     },
     {
       "slide_number": 2,
-      "headline": "Made For Men\u2019s Apparel",
-      "description": "Present the product range as four strong visual categories: shirts, pants, tops, and bottoms. Use animated cards or garment cutouts with clear labels, keeping the layout simple and instantly scannable.",
-      "narration": "SuperDuper produces the men\u2019s essentials your brand needs\u2014from shirts and pants to tops and bottoms, all under one OEM partner."
+      "headline": "Turn Reviews Into Clear Signals",
+      "description": "Visualize the AI pipeline as a clean flow: Google Reviews enter, multilingual text is cleaned, then each review branches into business-relevant aspects with positive, neutral, or negative labels. Use animated tags such as food, service, ambience, waiting time, and value.",
+      "narration": "We collect roughly 15,000 to 30,000 reviews from 30 to 50 Bangkok restaurants, then use AI to classify sentiment across the moments that matter most to the business.",
+      "emoji": "\u2699\ufe0f"
     },
     {
       "slide_number": 3,
-      "headline": "Fast, Flexible, Close To Home",
-      "description": "Highlight the core alternative to overseas sourcing with a split-screen comparison: distant, complicated sourcing versus a responsive Bangkok production partner. Use map-line animation from Thailand to the wider region, without making unsupported claims about exact lead times.",
-      "narration": "For brands in Thailand and across the region, local production means a closer partner, clearer communication, and a more practical path from idea to finished apparel."
+      "headline": "Benchmark What Guests Actually Feel",
+      "description": "Show a polished analytics dashboard with an AI Restaurant Score ranking, category comparison bars, competitive radar charts, and a positioning map comparing operational excellence with guest experience. Keep the visuals premium, legible, and decision-oriented.",
+      "narration": "The result goes beyond star ratings: an AI Restaurant Score, category benchmarks, competitive radar charts, and a market map that shows exactly where each restaurant stands.",
+      "emoji": "\ud83d\udcca"
     },
     {
       "slide_number": 4,
-      "headline": "Built For Growing Brands",
-      "description": "Show an emerging brand workflow: concept, sample, production, finished rack. Focus on approachability and OEM support rather than scale or luxury. Use warm workshop details, fabric close-ups, and confident kinetic text.",
-      "narration": "Whether you\u2019re launching your first collection or growing your next one, SuperDuper helps turn your apparel ideas into products customers can wear."
+      "headline": "Find The Moments That Matter",
+      "description": "Bring the customer journey to life from reservation and arrival through waiting, ordering, food, dessert, and payment. Highlight sentiment clusters at each stage, alongside a word cloud and trend line showing recurring themes and changes over time.",
+      "narration": "Operators can see where sentiment rises or breaks across the full guest journey, discover recurring language, and track whether service improves or a renovation changes perception.",
+      "emoji": "\ud83e\udded"
     },
     {
       "slide_number": 5,
-      "headline": "Start Your Next Collection",
-      "description": "Close with a direct social call to action. Display the SuperDuper name prominently, repeat the Bangkok location, and reserve space for verified contact details, QR code, Instagram handle, or website once available. End with a clean logo lockup and a memorable final beat.",
-      "narration": "Stop searching blindly for your next manufacturer. Discover SuperDuper in Pratunam Market, Bangkok, and start a conversation about your next collection."
+      "headline": "Know What To Fix First",
+      "description": "End on a one-page restaurant benchmark report. Feature a clear biggest strength, biggest weakness, quick wins, competitor context, and prioritized recommendations. Close with a confident visual of an operator moving from insight to action.",
+      "narration": "Every restaurant receives a practical benchmark report: its strengths, weaknesses, market position, and priority actions\u2014turning scattered feedback into focused investment decisions.",
+      "emoji": "\ud83d\ude80"
     }
   ]
 }

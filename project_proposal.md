@@ -1,5 +1,56 @@
-**Problem:** SuperDuper is a wholesale OEM clothing manufacturer based in Pratunam Market, Bangkok, producing men's shirts, pants, tops, and bottoms. For years, growth ran entirely on word of mouth: walk-ins at the physical shop, repeat customers, and quiet referrals (sometimes even a client's competitor tracking SuperDuper down once they found out who was behind their rival's production). That pipeline has dried up. More brands are sourcing from China instead, and SuperDuper has zero online presence, so new brands who'd genuinely benefit from a fast, affordable OEM partner have no way of ever finding out it exists.
+# Multimodal Fine Dining Consumer Insight Observer
 
-**Audience:** Small and emerging clothing brands (Thailand and the wider region) currently manufacturing overseas or struggling to find a reliable OEM partner for men's apparel, who don't yet know SuperDuper is an option.
+## Problem
+Bangkok's fine dining restaurants generate thousands of Google Reviews, but
+that feedback is scattered across free text, star ratings, and multiple
+languages. Operators have no efficient way to see past an aggregate star
+rating to understand which specific parts of the guest experience are
+working and which aren't, whether a complaint is really about food,
+service, ambience, waiting time, or price. Reading reviews manually
+doesn't scale, so operators end up making decisions on gut feeling rather
+than on what customers are consistently saying.
 
-**Scope:** Build a Python agent that takes a short pitch of SuperDuper's OEM offering (men's shirts, pants, tops, and bottoms) and turns it into a sharp, short promotional video reel built for social media, introducing SuperDuper to brands who've never heard of it. The agent generates a slide plan, renders each slide as an HTML/CSS visual, writes and voices narration, critiques and revises its own work, and stitches the result into a finished reel, following the course's required agent pipeline.
+## Audience
+Bangkok fine dining restaurant owners and operations managers who want a
+structured, data-driven view of guest sentiment to guide operational
+improvements, benchmark themselves against competitors, and prioritize
+where to invest limited resources.
+
+## Scope
+We will build an AI research pipeline that:
+1. Collects Google Reviews from roughly 30-50 Bangkok fine dining
+   restaurants (about 15,000-30,000 reviews total), capturing restaurant
+   name, rating, review count, review text, date, reviewer language, and
+   price level.
+2. Cleans and prepares the review data for analysis.
+3. Uses an LLM to classify each review across business-relevant aspects,
+   including food quality, taste, service, staff friendliness, waiting
+   time, ambience, interior design, value for money, drinks, dessert,
+   reservation, parking, and cleanliness, as positive, neutral, or
+   negative (Aspect-Based Sentiment Analysis).
+4. Benchmarks restaurants against each other using an AI Restaurant Score
+   built from aspect-level sentiment, plus category-by-category
+   comparisons.
+5. Generates strategic recommendations for each restaurant.
+
+## Key Outputs
+- An overall AI Restaurant Score ranking that goes beyond simple star
+  ratings
+- Category benchmarking across food, service, atmosphere, and value
+- A positioning map plotting restaurants on operational excellence versus
+  guest experience
+- Competitive radar charts across the aspect categories
+- An opportunity matrix per restaurant highlighting its biggest strength,
+  biggest weakness, and quick wins
+- Customer journey mapping, from reservation through arrival, waiting,
+  ordering, food, dessert, and payment, showing where sentiment clusters
+- Word cloud and theme analysis of recurring positive and negative
+  language
+- Trend analysis over time, such as whether service is improving or a
+  renovation changed sentiment
+- A one-page benchmark report per restaurant summarizing its score,
+  strengths, weaknesses, market position, competitors, and priority
+  recommendations
+
+This gives fine dining operators, for the first time, a clear,
+evidence-based picture of exactly where they stand and what to fix first.
