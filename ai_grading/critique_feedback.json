@@ -1,49 +1,117 @@
-{
-  "critiques": [
-    {
-      "slide_number": 1,
-      "original_narration": "Bangkok\u2019s finest tables generate thousands of opinions. We transform them into a clear competitive advantage.",
-      "critique_narration": "Strong premium opening, but \u201cfinest tables\u201d and \u201ccompetitive advantage\u201d are broad and slightly promotional. It should establish the specific tension: high review volume does not automatically produce useful insight.",
-      "revised_narration": "Bangkok\u2019s leading restaurants generate thousands of guest opinions\u2014but volume alone does not reveal what drives performance. We turn that signal into a sharper competitive view.",
-      "original_visual": "\u2022 Cinematic Bangkok skyline dissolves into intimate fine-dining details\n\u2022 Establishes a premium, data-led perspective on restaurant performance\n\u2022 Introduces 30\u201350 restaurants and 15,000\u201330,000 Google Reviews",
-      "critique_visual": "The cinematic transition is elegant, but the visual brief risks feeling like generic hospitality advertising. The sample size is important, yet it is buried as a range and lacks a clear visual hierarchy. Avoid showing too many restaurant details at once; use one atmospheric hero image and one restrained data statement. Also clarify whether the analysis is illustrative or based on a defined market sample.",
-      "revised_visual_notes": "Use a single dusk Bangkok skyline image with a subtle dissolve into one precise fine-dining detail\u2014no collage. Overlay a quiet, high-contrast data line: \u201c30\u201350 leading restaurants \u00b7 15,000\u201330,000 public reviews.\u201d Add a small subtitle such as \u201cA market view built from guest language,\u201d keeping the title and data statement dominant."
+[
+  {
+    "slide_number": 1,
+    "slide_type": "hero",
+    "original_headline": "See What Guests Really Mean",
+    "original_bullets": [
+      "15,000\u201330,000 reviews become usable insight",
+      "Multilingual feedback reveals experience-specific sentiment",
+      "Move beyond aggregate ratings and gut feeling"
+    ],
+    "original_narration": "Bangkok\u2019s fine dining feedback is rich but fragmented. We turn thousands of multilingual reviews into a clear view of what guests truly experience.",
+    "critique": {
+      "strengths": "The slide has a clear strategic promise: it translates a large, messy review corpus into actionable understanding. \u201c15,000\u201330,000 reviews\u201d gives scale and makes the offer feel substantial, while \u201cMultilingual feedback\u201d and \u201cexperience-specific sentiment\u201d signal a differentiated capability. The narration also creates a useful tension\u2014rich but fragmented input versus a clear output\u2014and the phrase \u201cwhat guests truly experience\u201d aligns with a luxury hospitality audience\u2019s focus on lived experience rather than simple scores.",
+      "weaknesses": "The headline is the weakest element. \u201cSee What Guests Really Mean\u201d is generic, slightly consumer-insight flavored, and not especially premium. \u201cReally mean\u201d also sounds like a vague promise rather than a precise business outcome. It could describe almost any review-analysis product. The bullets are accurate but read like methodology notes, not compelling on-screen copy. \u201cBecome usable insight\u201d is abstract and awkward; \u201cexperience-specific sentiment\u201d is technical jargon; and \u201cgut feeling\u201d introduces a casual phrase that undercuts the luxury tone. There is also some redundancy between \u201cusable insight,\u201d \u201cclear view,\u201d and \u201cmove beyond aggregate ratings.\u201d The narration is clearer than the headline, but \u201crich but fragmented\u201d and \u201cwhat guests truly experience\u201d are familiar category language and do not yet establish a distinctive Bangkok or fine-dining point of view.",
+      "suggestions": "Replace the headline with an outcome-led statement rather than a description of looking at reviews. Stronger directions include: \u201cFrom Review Volume to Guest Truth,\u201d \u201cWhat Fine-Dining Guests Value\u2014Beyond the Score,\u201d \u201cTurn Guest Voices Into Experience Intelligence,\u201d or, more premium and specific, \u201cReveal the Experiences Behind the Ratings.\u201d If Bangkok must be foregrounded, try \u201cDecode Bangkok\u2019s Fine-Dining Experience.\u201d Rewrite the bullets to be shorter, sharper, and benefit-led: \u201cTurn 15,000\u201330,000 reviews into decision-ready signals\u201d; \u201cRead sentiment across languages\u2014and across the guest journey\u201d; \u201cSee what ratings hide: service, atmosphere, food, and intent.\u201d Consider replacing \u201cgut feeling\u201d with \u201cassumption\u201d or \u201cintuition\u201d to preserve authority. The narration could become more distinctive: \u201cAcross Bangkok\u2019s fine-dining scene, the richest signals are buried in thousands of reviews, languages, and moments. We surface what guests praise, miss, and remember\u2014so you can improve the experience beyond the rating.\u201d Visually, let the headline carry the strategic idea and use the bullets only to prove it; avoid presenting the bullets as a feature list."
     },
-    {
-      "slide_number": 2,
-      "original_narration": "Beyond stars, we reveal what guests truly praise, question, and remember.",
-      "critique_narration": "Memorable and concise, but \u201ctruly\u201d is vague and \u201cremember\u201d is emotionally appealing without explaining the analytical mechanism. The narration should name the five dimensions so the audience immediately understands the value.",
-      "revised_narration": "Beyond star ratings, we separate guest feedback into five dimensions\u2014food, service, ambience, value, and operational friction\u2014to show what is genuinely driving perception.",
-      "original_visual": "\u2022 Animated review fragments separate into five ABSA dimensions\n\u2022 Highlights food, service, ambience, value, and operational friction\n\u2022 Uses elegant typography and restrained data motion for a luxury feel",
-      "critique_visual": "The conceptual move is clear, but animated text fragments can become visually noisy and may imply that every review maps neatly to one category. \u201cOperational friction\u201d is also structurally different from the other experience dimensions and needs careful framing. The five-part reveal should be simple, legible, and paced rather than ornamental.",
-      "revised_visual_notes": "Begin with one short, anonymized review excerpt. Highlight phrases in five restrained accent colors, then let them resolve into five labeled columns or rings: Food, Service, Ambience, Value, Friction. Keep the excerpt readable at presentation distance; use motion only to demonstrate classification, not as decoration. Define \u201cfriction\u201d with a small example such as waits, reservations, or payment."
+    "revised_headline": "Reveal the Experience Behind Ratings",
+    "revised_bullets": [
+      "Turn 15,000\u201330,000 reviews into decision-ready signals",
+      "Trace sentiment across languages and the guest journey",
+      "See what ratings hide: service, atmosphere, food, and intent"
+    ],
+    "revised_narration": "Across Bangkok\u2019s fine-dining scene, we uncover what guests praise, miss, and remember\u2014turning multilingual reviews into sharper decisions beyond the rating."
+  },
+  {
+    "slide_number": 2,
+    "slide_type": "bullets",
+    "original_headline": "One Voice Across Every Review",
+    "original_bullets": [
+      "Collect reviews from 30\u201350 Bangkok restaurants",
+      "Clean language, ratings, dates, and pricing signals",
+      "Classify sentiment across twelve operational aspects"
+    ],
+    "original_narration": "Our AI research pipeline gathers and prepares the market\u2019s review data, then identifies whether each experience aspect is positive, neutral, or negative.",
+    "critique": {
+      "strengths": "The slide has a clear strategic promise: turning fragmented restaurant reviews into one comparable market view. The three bullets form a logical sequence\u2014collect, normalize, classify\u2014and the specific figures (\u201c30\u201350 restaurants\u201d and \u201ctwelve operational aspects\u201d) add credibility. \u201cOne Voice Across Every Review\u201d is concise and has a premium, unifying tone. The narration also broadly matches the slide\u2019s intended message.",
+      "weaknesses": "The headline is evocative but slightly ambiguous: \u201cOne Voice\u201d can sound like brand messaging or a customer-service promise rather than review intelligence. It does not clearly communicate the outcome. The bullets read like internal workflow notes, not luxury promotional copy: \u201cclean language,\u201d \u201cpricing signals,\u201d \u201coperational aspects,\u201d and \u201cAI research pipeline\u201d are functional and generic. \u201cClean language\u201d is especially vague\u2014does it mean translation, deduplication, normalization, or removal of noise? The 30\u201350 range feels arbitrary and potentially small unless the slide explains why that sample is meaningful. The narration largely restates the bullets and leans on process language (\u201cgathers and prepares,\u201d \u201cpipeline\u201d) instead of delivering a sharper business benefit. \u201cPositive, neutral, or negative\u201d is also basic sentiment-analysis language and undersells the sophistication implied by twelve aspects. There is no visible implication of what the audience gains: comparable performance, market gaps, or a confident decision.",
+      "suggestions": "Make the headline express the result rather than the mechanism. Stronger options include \u201cOne Comparable View of Bangkok Dining,\u201d \u201cTurn Every Review Into a Market Signal,\u201d or \u201cFrom Guest Feedback to Clear Market Signals.\u201d If retaining the current line, add a clarifying subhead such as \u201cA consistent lens across Bangkok\u2019s restaurant reviews.\u201d Rewrite the bullets in outcome-led language: \u201cUnify feedback from 30\u201350 Bangkok restaurants\u201d; \u201cStandardize wording, ratings, dates, and price cues\u201d; \u201cReveal sentiment across 12 experience drivers.\u201d Replace \u201cclean language\u201d with the precise operation being performed. Tighten the narration to avoid repeating the bullets: \u201cWe turn thousands of fragmented reviews into a consistent market view\u2014showing where each restaurant wins, falls short, and leaves opportunity across twelve experience drivers.\u201d Consider showing a before/after visual: scattered review excerpts flowing into a refined matrix or signal map. Give the slide a more premium hierarchy by emphasizing the transformation and the twelve-driver output, while relegating collection volume and technical processing to smaller supporting text. If the sample size is strategically selected, state why\u2014such as \u201c30\u201350 leading Bangkok venues\u201d or \u201cacross the city\u2019s key dining set\u201d\u2014rather than leaving the range unexplained."
     },
-    {
-      "slide_number": 3,
-      "original_narration": "Our AI converts unstructured feedback into a scorecard built for sharper decisions.",
-      "critique_narration": "Clear proposition, but \u201cour AI\u201d is generic and can sound like a technology claim without proof. The line should distinguish aspect-level insight from a single overall rating and avoid overstating precision.",
-      "revised_narration": "We translate unstructured reviews into aspect-level scores, revealing where each restaurant is strong, exposed, and consistent\u2014not just how many stars it receives.",
-      "original_visual": "\u2022 Visualizes aspect-based ratings beside traditional star averages\n\u2022 Compares restaurants through refined scorecards and radar charts\n\u2022 Emphasizes precision: strengths, weaknesses, and consistency by experience dimension",
-      "critique_visual": "The comparison is valuable, but combining scorecards and radar charts may create redundant visual language. Radar charts are often difficult to compare precisely and can undermine the promised clarity. \u201cPrecision\u201d also requires visible methodology or confidence cues; otherwise the slide risks presenting inferred scores as objective facts.",
-      "revised_visual_notes": "Make one restaurant scorecard the hero: overall stars on the left, five aspect scores on the right, with a compact consistency indicator and review volume. Use a small before/after comparison showing how two restaurants with similar star averages differ by dimension. Prefer aligned bars or dots over radar charts for exact comparison. Add a discreet note: \u201cScores derived from aspect-level review analysis.\u201d"
+    "revised_headline": "One Comparable View of Bangkok Dining",
+    "revised_bullets": [
+      "Unify feedback from 30\u201350 leading Bangkok venues",
+      "Standardize ratings, dates, language, and price cues",
+      "Reveal sentiment across 12 experience drivers"
+    ],
+    "revised_narration": "We turn fragmented guest feedback into a consistent market view\u2014revealing where restaurants win, fall short, and leave opportunity across twelve experience drivers."
+  },
+  {
+    "slide_number": 3,
+    "slide_type": "pipeline",
+    "original_headline": "Benchmark What Drives Loyalty",
+    "original_bullets": [
+      "AI Restaurant Score goes beyond star ratings",
+      "Compare food, service, atmosphere, and value",
+      "Map operational excellence against guest experience"
+    ],
+    "original_narration": "Operators gain a defensible competitive benchmark, showing how restaurants perform across the dimensions that shape satisfaction, reputation, and return visits.",
+    "critique": {
+      "strengths": "The slide has a clear strategic premise: move beyond star ratings to a more diagnostic view of restaurant performance. The bullets create a useful progression from the AI Restaurant Score to its component dimensions and then to the business implication. \u201cFood, service, atmosphere, and value\u201d is concrete and easy to understand. The narration adds credible commercial stakes\u2014satisfaction, reputation, and return visits\u2014and positions the benchmark as actionable rather than merely descriptive.",
+      "weaknesses": "\u201cBenchmark What Drives Loyalty\u201d is serviceable but generic and slightly overclaims: the slide describes dimensions associated with loyalty, not a direct measurement or causal proof of loyalty. It also sounds like a strategy-deck headline rather than distinctive luxury promotional copy. \u201cAI Restaurant Score\u201d risks feeling like product jargon unless the audience already knows what it is, while \u201cgoes beyond star ratings\u201d is a familiar category claim. \u201cMap operational excellence against guest experience\u201d is abstract, corporate, and difficult to visualize; it also introduces \u201coperational excellence\u201d without explaining how it relates to the listed guest-facing dimensions. The narration is polished but dense and contains generic phrases such as \u201cdefensible competitive benchmark\u201d and \u201cdimensions that shape satisfaction.\u201d There is some mismatch between the concise bullets and the more technical, business-heavy narration.",
+      "suggestions": "Make the headline express the outcome or point of difference, not the act of benchmarking. Consider: \u201cSee What Earns the Next Visit,\u201d \u201cTurn Guest Signals Into Competitive Advantage,\u201d or \u201cMeasure the Experience Behind the Rating.\u201d If the benchmark itself is the hero, use \u201cA Clearer Benchmark for Restaurant Experience.\u201d Replace the first bullet with a more benefit-led line, such as \u201cSee beyond the star rating.\u201d Make the second bullet parallel and sharper: \u201cCompare food, service, atmosphere, and value side by side.\u201d Replace the third with something more concrete: \u201cLink guest sentiment to operational performance\u201d or \u201cSee where operations lift\u2014or weaken\u2014the guest experience.\u201d Tighten the narration to: \u201cThe AI Restaurant Score gives operators a clearer competitive benchmark\u2014revealing how food, service, atmosphere, and value influence reputation and the decision to return.\u201d Visually, show a simple comparison or diagnostic view rather than a generic dashboard: one score resolving into the four dimensions, then connecting to a return-visit or reputation outcome. Avoid presenting \u201cAI\u201d as the main luxury cue; lead with clarity, confidence, and the quality of the insight."
     },
-    {
-      "slide_number": 4,
-      "original_narration": "Positioning becomes visible\u2014showing where each restaurant leads, lags, and can differentiate.",
-      "critique_narration": "The line is directionally strong, though \u201ccan differentiate\u201d jumps from diagnosis to strategy. It would be more credible to explain what the map reveals and let the opportunity follow from the evidence.",
-      "revised_narration": "The market map shows which restaurants combine operational strength with guest experience\u2014and which occupy an overlooked or vulnerable position.",
-      "original_visual": "\u2022 Maps restaurants across Operational Excellence and Guest Experience\n\u2022 Identifies premium leaders, hidden challengers, and vulnerable positions\n\u2022 Creates a compelling benchmark for owners, general managers, and culinary directors",
-      "critique_visual": "A two-axis map is an effective executive visual, but the quadrant labels must be defined and nonjudgmental. \u201cPremium leaders,\u201d \u201chidden challengers,\u201d and \u201cvulnerable positions\u201d may feel like conclusions imposed by the design unless the underlying thresholds are visible. Showing 30\u201350 points at once could also become cluttered and reduce the sense of luxury.",
-      "revised_visual_notes": "Use a clean two-axis matrix with explicit axis definitions and a limited number of labeled exemplar restaurants; show the full sample as subdued dots. Highlight three evidence-based zones: \u201cexperience leaders,\u201d \u201coperationally strong,\u201d and \u201copportunity positions.\u201d Include a small legend for bubble size or color, and annotate only two or three meaningful outliers. Add a footnote describing the scoring basis and time period."
+    "revised_headline": "See What Earns the Next Visit",
+    "revised_bullets": [
+      "See beyond the star rating",
+      "Compare food, service, atmosphere, and value side by side",
+      "Connect guest sentiment to operational performance"
+    ],
+    "revised_narration": "The AI Restaurant Score reveals what shapes reputation and return visits\u2014from food and service to atmosphere and value."
+  },
+  {
+    "slide_number": 4,
+    "slide_type": "scorecard",
+    "original_headline": "Find The Moments That Matter",
+    "original_bullets": [
+      "Trace sentiment across the complete customer journey",
+      "Expose recurring strengths, weaknesses, and themes",
+      "Track changes after improvements or renovations"
+    ],
+    "original_narration": "Customer journey analysis shows exactly where sentiment rises or falls, while theme and trend analysis reveals what is changing and why.",
+    "critique": {
+      "strengths": "The slide has a clear analytical story: map sentiment across the journey, identify repeated themes, and measure change over time. The bullets progress logically from diagnosis to pattern recognition to post-improvement tracking. The narration adds useful specificity by contrasting \u201cwhere sentiment rises or falls\u201d with \u201cwhat is changing and why,\u201d giving the feature a credible strategic benefit rather than presenting it as raw reporting.",
+      "weaknesses": "\u201cFind The Moments That Matter\u201d is polished but generic and emotionally broad; it could describe almost any customer-insight product. It also does not communicate the distinctive value of journey, theme, or trend analysis. The bullets are accurate but read like feature descriptions, with terms such as \u201ccomplete customer journey,\u201d \u201crecurring strengths, weaknesses, and themes,\u201d and \u201ctrack changes\u201d feeling familiar and somewhat dense. \u201cExactly\u201d in the narration overpromises analytical certainty, while \u201cwhat is changing and why\u201d may imply causal insight that the product may not be able to prove. The slide currently explains the mechanics more than the luxury-level outcome\u2014knowing which moments shape perception and where to act.",
+      "suggestions": "Replace the headline with benefit-led on-screen copy that is more specific and ownable, such as \u201cSee What Shapes the Experience,\u201d \u201cPinpoint the Moments That Define Loyalty,\u201d or \u201cTurn Every Touchpoint Into Insight.\u201d If the product is specifically about improvement measurement, consider \u201cSee What Changed\u2014and What It Changed.\u201d Tighten the bullets into concise, parallel outcome statements: \u201cMap sentiment across every touchpoint\u201d; \u201cReveal the themes customers repeat\u201d; \u201cProve the impact of every improvement.\u201d Consider making the third bullet more concrete: \u201cCompare sentiment before and after a renovation.\u201d Revise the narration to avoid overclaiming: \u201cJourney analysis shows where sentiment rises and falls. Theme and trend analysis reveals the patterns behind those shifts\u2014so teams know what to improve and can measure the result.\u201d Visually, support the copy with a refined journey line or sentiment arc, a restrained set of recurring theme markers, and a before/after comparison; avoid generic footage or a literal shot of a journey, since the headline should function as persuasive copy rather than describe the visual."
     },
-    {
-      "slide_number": 5,
-      "original_narration": "The result is actionable: fewer blind spots, stronger experiences, and smarter growth for Bangkok\u2019s finest restaurants.",
-      "critique_narration": "The close has a useful progression, but it stacks three broad benefits and repeats the premium positioning. It should end with a concrete decision-oriented promise, ideally linking the opportunities to the specific friction themes introduced earlier.",
-      "revised_narration": "The opportunity is practical: prioritize the friction guests feel most, strengthen the moments that matter, and invest with evidence\u2014not assumption.",
-      "original_visual": "\u2022 Clusters recurring themes into prioritized operational opportunities\n\u2022 Surfaces quick wins across wait times, reservations, service, and value\n\u2022 Ends with a confident invitation to act on evidence, not assumptions",
-      "critique_visual": "The slide has the right endpoint, but \u201cclusters\u201d and \u201cquick wins\u201d are analytical language that can feel abstract. A generic invitation to act will weaken the close unless the audience sees how prioritization works. The final visual should make trade-offs and next actions immediately legible, rather than adding another cloud of themes.",
-      "revised_visual_notes": "Show a ranked opportunity board with three columns: Guest signal, Business impact, Recommended action. Use four concrete examples\u2014wait times, reservations, service recovery, and value\u2014with one highlighted priority. Distinguish quick wins from longer-term initiatives by time horizon, not by decorative color. End with a concise callout: \u201cKnow what to fix first.\u201d Keep the closing frame spacious and decisive, with a discreet methodology or sample note rather than a dense conclusion."
-    }
-  ]
-}
+    "revised_headline": "Pinpoint the Moments That Define Loyalty",
+    "revised_bullets": [
+      "Map sentiment across every touchpoint",
+      "Reveal the themes customers repeat",
+      "Measure the impact of every improvement"
+    ],
+    "revised_narration": "See where sentiment shifts, uncover the patterns behind it, and measure which improvements strengthen the customer experience."
+  },
+  {
+    "slide_number": 5,
+    "slide_type": "cta",
+    "original_headline": "Turn Evidence Into Action",
+    "original_bullets": [
+      "Receive a focused one-page restaurant benchmark",
+      "Prioritize biggest weakness and fastest wins",
+      "Guide investment with clear strategic recommendations"
+    ],
+    "original_narration": "Every restaurant receives an actionable benchmark: its position, strongest advantage, most urgent weakness, and practical priorities for improving the guest experience.",
+    "critique": {
+      "strengths": "The slide has a clear outcome-oriented structure: evidence becomes a benchmark, the benchmark reveals priorities, and priorities inform investment. The bullets progress logically from deliverable to diagnosis to decision-making. \u201cOne-page restaurant benchmark\u201d is concrete and gives the audience a tangible sense of the output. The narration adds useful specificity\u2014\u201cposition, strongest advantage, most urgent weakness, and practical priorities\u201d\u2014and makes the guest-experience benefit explicit.",
+      "weaknesses": "\u201cTurn Evidence Into Action\u201d is understandable but generic and somewhat functional for a luxury promotional reel; it could belong to almost any strategy or consulting presentation. It also describes a process rather than creating a distinctive promise. The first bullet is slightly awkward (\u201cReceive a focused one-page restaurant benchmark\u201d) and reads like an internal deliverable. The second uses compressed business jargon\u2014\u201cbiggest weakness and fastest wins\u201d\u2014and the third is broad and familiar (\u201cclear strategic recommendations\u201d). The bullets overlap with the narration without adding much emotional or premium value. \u201cEvery restaurant receives\u201d in the narration is also repetitive if the visual already shows the deliverable, and \u201cactionable\u201d is a generic claim unless the slide demonstrates what makes the action unusually sharp or valuable.",
+      "suggestions": "Use a headline that expresses the value of the insight, not the mechanics of the slide. Stronger directions include: \u201cKnow Exactly What to Fix Next,\u201d \u201cFrom Restaurant Insight to Strategic Advantage,\u201d \u201cA Clearer Path to a Better Guest Experience,\u201d or, with a more premium tone, \u201cPrecision Where It Matters Most.\u201d If the positioning is about tailored diagnosis, consider \u201cEvery Restaurant. Its Next Best Move.\u201d\n\nRewrite the bullets as concise, parallel benefit statements:\n\u2022 A one-page view of your restaurant\u2019s position\n\u2022 The highest-impact weakness\u2014and fastest opportunity\n\u2022 Clear priorities for smarter guest-experience investment\n\nAlternatively, make the output feel more exclusive and less like a standard consulting report:\n\u2022 See where your restaurant leads\u2014and where it lags\n\u2022 Focus on the opportunity with the greatest upside\n\u2022 Invest with confidence in the guest experience\n\nTighten the narration to avoid restating every bullet: \u201cEach restaurant receives a precise, one-page view of where it stands, what sets it apart, and the next moves that will most improve the guest experience.\u201d On screen, show a beautifully designed fragment of the benchmark\u2014position, advantage, priority, recommendation\u2014so the luxury tone comes from clarity, restraint, and evidence rather than adjectives. Keep the headline short, make the bullets visibly subordinate, and let one distinctive proof point or benchmark visual carry the credibility."
+    },
+    "revised_headline": "Your Restaurant\u2019s Next Best Move",
+    "revised_bullets": [
+      "See where your restaurant leads\u2014and lags",
+      "Focus on the opportunity with greatest upside",
+      "Invest with confidence in the guest experience"
+    ],
+    "revised_narration": "A precise view of where your restaurant stands, what sets it apart, and the next move with the greatest impact."
+  }
+]

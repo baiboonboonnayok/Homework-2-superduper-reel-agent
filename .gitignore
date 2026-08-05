@@ -1,7 +1,9 @@
 .env
-__pycache__
+__pycache__/
 *.pyc
+.DS_Store
+venv/
+slides/*.png
 audio/
 video_clips/
 reel.mp4
-slides/*.png

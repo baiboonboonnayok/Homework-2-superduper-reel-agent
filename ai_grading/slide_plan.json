@@ -2,33 +2,53 @@
   "slides": [
     {
       "slide_number": 1,
-      "title": "Bangkok, Beyond the Star Rating",
-      "description": "\u2022 Cinematic Bangkok skyline dissolves into intimate fine-dining details\n\u2022 Establishes a premium, data-led perspective on restaurant performance\n\u2022 Introduces 30\u201350 restaurants and 15,000\u201330,000 Google Reviews",
-      "narration": "Bangkok\u2019s finest tables generate thousands of opinions. We transform them into a clear competitive advantage."
+      "headline": "See What Guests Really Mean",
+      "bullets": [
+        "15,000\u201330,000 reviews become usable insight",
+        "Multilingual feedback reveals experience-specific sentiment",
+        "Move beyond aggregate ratings and gut feeling"
+      ],
+      "narration": "Bangkok\u2019s fine dining feedback is rich but fragmented. We turn thousands of multilingual reviews into a clear view of what guests truly experience."
     },
     {
       "slide_number": 2,
-      "title": "Every Review Has a Story",
-      "description": "\u2022 Animated review fragments separate into five ABSA dimensions\n\u2022 Highlights food, service, ambience, value, and operational friction\n\u2022 Uses elegant typography and restrained data motion for a luxury feel",
-      "narration": "Beyond stars, we reveal what guests truly praise, question, and remember."
+      "headline": "One Voice Across Every Review",
+      "bullets": [
+        "Collect reviews from 30\u201350 Bangkok restaurants",
+        "Clean language, ratings, dates, and pricing signals",
+        "Classify sentiment across twelve operational aspects"
+      ],
+      "narration": "Our AI research pipeline gathers and prepares the market\u2019s review data, then identifies whether each experience aspect is positive, neutral, or negative."
     },
     {
       "slide_number": 3,
-      "title": "From Sentiment to Scorecard",
-      "description": "\u2022 Visualizes aspect-based ratings beside traditional star averages\n\u2022 Compares restaurants through refined scorecards and radar charts\n\u2022 Emphasizes precision: strengths, weaknesses, and consistency by experience dimension",
-      "narration": "Our AI converts unstructured feedback into a scorecard built for sharper decisions."
+      "headline": "Benchmark What Drives Loyalty",
+      "bullets": [
+        "AI Restaurant Score goes beyond star ratings",
+        "Compare food, service, atmosphere, and value",
+        "Map operational excellence against guest experience"
+      ],
+      "narration": "Operators gain a defensible competitive benchmark, showing how restaurants perform across the dimensions that shape satisfaction, reputation, and return visits."
     },
     {
       "slide_number": 4,
-      "title": "See the Market Position Clearly",
-      "description": "\u2022 Maps restaurants across Operational Excellence and Guest Experience\n\u2022 Identifies premium leaders, hidden challengers, and vulnerable positions\n\u2022 Creates a compelling benchmark for owners, general managers, and culinary directors",
-      "narration": "Positioning becomes visible\u2014showing where each restaurant leads, lags, and can differentiate."
+      "headline": "Find The Moments That Matter",
+      "bullets": [
+        "Trace sentiment across the complete customer journey",
+        "Expose recurring strengths, weaknesses, and themes",
+        "Track changes after improvements or renovations"
+      ],
+      "narration": "Customer journey analysis shows exactly where sentiment rises or falls, while theme and trend analysis reveals what is changing and why."
     },
     {
       "slide_number": 5,
-      "title": "Turn Friction into Opportunity",
-      "description": "\u2022 Clusters recurring themes into prioritized operational opportunities\n\u2022 Surfaces quick wins across wait times, reservations, service, and value\n\u2022 Ends with a confident invitation to act on evidence, not assumptions",
-      "narration": "The result is actionable: fewer blind spots, stronger experiences, and smarter growth for Bangkok\u2019s finest restaurants."
+      "headline": "Turn Evidence Into Action",
+      "bullets": [
+        "Receive a focused one-page restaurant benchmark",
+        "Prioritize biggest weakness and fastest wins",
+        "Guide investment with clear strategic recommendations"
+      ],
+      "narration": "Every restaurant receives an actionable benchmark: its position, strongest advantage, most urgent weakness, and practical priorities for improving the guest experience."
     }
   ]
 }

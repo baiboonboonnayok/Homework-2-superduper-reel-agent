@@ -1,163 +1,477 @@
 import asyncio
 import json
 import os
-import re
+import subprocess
 from pathlib import Path
 from typing import List
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
+from pydantic_ai import Agent
+from openai import AsyncOpenAI
 from dotenv import load_dotenv
+from playwright.sync_api import sync_playwright
 
 env_path = Path(__file__).parent / ".env"
 load_dotenv(dotenv_path=env_path)
 
 api_key = os.getenv("OPENAI_API_KEY") or os.getenv("OPENAI_KEY")
 if not api_key:
-    raise ValueError("❌ Could not find OPENAI_API_KEY in your .env file!")
-
-from openai import AsyncOpenAI
-from pydantic_ai import Agent
+    raise ValueError("Could not find OPENAI_API_KEY in your .env file!")
 
 openai_client = AsyncOpenAI(api_key=api_key)
 
-os.makedirs("slides", exist_ok=True)
-os.makedirs("audio", exist_ok=True)
-os.makedirs("ai_grading", exist_ok=True)
-os.makedirs("video_clips", exist_ok=True)
+FADE_SECONDS = 0.25
+GAP_SECONDS = 0.2  # true silence + held frame added after each slide, before the cut
 
-class SlideItem(BaseModel):
+KICKER = "Bangkok Fine Dining Intelligence"
+
+FONT_LINKS = (
+    '<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:'
+    'ital,wght@0,400;0,500;1,400&family=Plus+Jakarta+Sans:wght@300;400;500'
+    '&display=swap" rel="stylesheet">'
+)
+
+BASE_STYLE = """
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  width: 1080px; height: 1920px;
+  background: radial-gradient(circle at center, #141418 0%, #070709 100%);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: #ffffff; display: flex; flex-direction: column;
+  justify-content: center; align-items: center; padding: 100px;
+  overflow: hidden; position: relative;
+}
+.kicker { color: #d4af37; font-size: 20px; font-weight: 500; letter-spacing: 8px; text-transform: uppercase; margin-bottom: 25px; opacity: 0; animation: fadeInDown 0.8s ease forwards 0.2s; }
+.title { font-family: 'Playfair Display', serif; font-size: 72px; font-weight: 400; text-align: center; line-height: 1.2; margin-bottom: 60px; color: #fcfcfc; opacity: 0; animation: fadeInDown 0.8s ease forwards 0.4s; }
+@keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+"""
+
+
+class Slide(BaseModel):
     slide_number: int
-    title: str
-    description: str
+    headline: str
+    bullets: List[str]   # 2-3 clean on-screen phrases, generated directly (never regex-split from prose)
     narration: str
 
+
 class SlidePlan(BaseModel):
-    slides: List[SlideItem]
+    slides: List[Slide]
 
-class SlideCritique(BaseModel):
-    slide_number: int
-    original_narration: str
-    critique_narration: str
-    revised_narration: str
-    original_visual: str
-    critique_visual: str
-    revised_visual_notes: str
 
-class CritiqueReport(BaseModel):
-    critiques: List[SlideCritique]
+class Critique(BaseModel):
+    strengths: str
+    weaknesses: str
+    suggestions: str
+
+
+class RevisedSlide(BaseModel):
+    headline: str
+    bullets: List[str]
+    narration: str
+
+
+class PipelineSteps(BaseModel):
+    steps: List[str]  # exactly 4 short pipeline stage names, in order
+
+
+class ScorecardItem(BaseModel):
+    label: str
+    value: str
+
+
+class Scorecard(BaseModel):
+    items: List[ScorecardItem]  # exactly 4 items, grounded in real proposal numbers
+
 
 planner_agent = Agent(
-    'openai:gpt-5.6-luna',
+    "openai:gpt-5.6-luna",
     output_type=SlidePlan,
     system_prompt=(
-        "You are an expert luxury video producer. "
-        "Produce a 4 to 5 slide plan for a video reel focusing on Bangkok Fine Dining Aspect-Based Sentiment Analysis (ABSA). "
-        "Provide 3 clean, distinct bullet points for descriptions. Keep narrations under 25 words."
-    )
+        "You are an expert luxury video producer. Given a project proposal, "
+        "produce a plan for 4 to 6 slides that pitch the project. For each "
+        "slide, provide: (1) a headline, short punchy on-screen text a "
+        "viewer would read, 3 to 8 words, never a shot description; (2) 2 to "
+        "3 clean bullet phrases, each a complete short phrase under 12 "
+        "words, plain text with no markdown, no bullet characters, and no "
+        "trailing hyphens or dashes; (3) narration text to be spoken aloud, "
+        "readable in about 10 seconds or less."
+    ),
 )
 
 critique_agent = Agent(
-    'openai:gpt-5.6-luna',
-    output_type=CritiqueReport,
+    "openai:gpt-5.6-luna",
+    output_type=Critique,
     system_prompt=(
-        "You are an art director. Critique each slide for elegance and clarity."
-    )
+        "You are an art director critiquing one slide from a luxury "
+        "promotional video reel. Given its headline, bullets, and "
+        "narration, identify what's strong, what's weak, and give specific "
+        "suggestions. Be critical of generic phrasing or a headline that "
+        "reads like a shot description instead of on-screen copy."
+    ),
 )
 
-def generate_html_slide(slide_num: int, title: str, description: str) -> str:
-    raw_bullets = re.split(r'\\n|\n|<br>|\u2022|-', description)
-    bullets = [b.strip() for b in raw_bullets if len(b.strip()) > 3]
-    if len(bullets) < 2:
-        bullets = ["15,000–30,000 Bangkok reviews", "30–50 fine dining destinations", "Intelligent guest insights"]
+revision_agent = Agent(
+    "openai:gpt-5.6-luna",
+    output_type=RevisedSlide,
+    system_prompt=(
+        "You revise a luxury video reel slide based on critique feedback. "
+        "Produce an improved headline (3 to 8 words), 2 to 3 clean bullet "
+        "phrases (plain text, no markdown, no bullet characters, no "
+        "trailing hyphens), and narration readable in about 10 seconds or "
+        "less."
+    ),
+)
 
-    if slide_num == 3:
-        card_content = """
-        <div class="metrics-container animate-in">
-            <div class="metric-item"><span>Food Quality & Taste</span><span class="m-val">92%</span></div>
-            <div class="metric-item"><span>Service & Hospitality</span><span class="m-val">78%</span></div>
-            <div class="metric-item"><span>Ambience & Atmosphere</span><span class="m-val">88%</span></div>
-            <div class="metric-item" style="border:none;"><span>Value Perception</span><span class="m-val">64%</span></div>
-        </div>
-        """
-    else:
-        bullets_html = "".join([f'<div class="bullet-row" style="animation-delay: {0.2 + (i*0.15)}s;"><div class="dot"></div><div>{b}</div></div>' for i, b in enumerate(bullets[:3])])
-        card_content = f"""<div class="editorial-box animate-in">{bullets_html}</div>"""
+pipeline_agent = Agent(
+    "openai:gpt-5.6-luna",
+    output_type=PipelineSteps,
+    system_prompt=(
+        "Given a project proposal, produce exactly 4 short pipeline stage "
+        "names (each under 4 words, for example 'Data Cleaning' or 'Aspect "
+        "Sentiment Analysis') describing the project's actual technical "
+        "steps in order, for a numbered flow diagram."
+    ),
+)
 
+scorecard_agent = Agent(
+    "openai:gpt-5.6-luna",
+    output_type=Scorecard,
+    system_prompt=(
+        "Given a project proposal, produce exactly 4 short scope stat "
+        "callouts describing the project's real planned scale, grounded "
+        "strictly in actual numbers stated in the proposal itself, such as "
+        "dataset size, number of restaurants, number of categories, or "
+        "number of output types. Each needs a short label (2 to 4 words) "
+        "and a short value (a number, range, or count, such as '30-50', "
+        "'15K-30K', or '13'). Never invent outcome or performance numbers "
+        "that haven't actually happened."
+    ),
+)
+
+
+def get_slide_type(slide_number, total_slides):
+    if slide_number == 1:
+        return "hero"
+    if slide_number == total_slides:
+        return "cta"
+    if slide_number == 3:
+        return "pipeline"
+    if slide_number == 4:
+        return "scorecard"
+    return "bullets"
+
+
+def render_hero_slide(headline, kicker_text):
     return f"""<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-    <style>
-        * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-        body {{
-            width: 1080px; height: 1920px;
-            background: radial-gradient(circle at center, #141418 0%, #070709 100%);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            color: #ffffff; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; padding: 100px;
-            overflow: hidden; position: relative;
-        }}
-        .kicker {{ color: #d4af37; font-size: 20px; font-weight: 500; letter-spacing: 8px; text-transform: uppercase; margin-bottom: 25px; opacity: 0; animation: fadeInDown 0.8s ease forwards 0.2s; }}
-        .title {{ font-family: 'Playfair Display', serif; font-size: 72px; font-weight: 400; text-align: center; line-height: 1.2; margin-bottom: 60px; color: #fcfcfc; opacity: 0; animation: fadeInDown 0.8s ease forwards 0.4s; }}
-        @keyframes fadeInDown {{ from {{ opacity: 0; transform: translateY(-20px); }} to {{ opacity: 1; transform: translateY(0); }} }}
-        
-        .editorial-box, .metrics-container {{
-            width: 100%; background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 6px;
-            padding: 60px 50px; box-shadow: 0 40px 80px rgba(0,0,0,0.8);
-        }}
-        .animate-in {{ opacity: 0; animation: slideUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards; }}
-        @keyframes slideUp {{ from {{ opacity: 0; transform: translateY(30px); }} to {{ opacity: 1; transform: translateY(0); }} }}
-        
-        .bullet-row {{ display: flex; align-items: center; margin-bottom: 35px; opacity: 0; animation: slideUp 0.8s ease forwards; font-size: 38px; font-weight: 300; color: #e2e8f0; }}
-        .dot {{ width: 8px; height: 8px; background-color: #d4af37; border-radius: 50%; margin-right: 25px; box-shadow: 0 0 10px #d4af37; flex-shrink: 0; }}
-        
-        .metric-item {{ display: flex; justify-content: space-between; align-items: center; padding: 24px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.08); font-size: 30px; font-weight: 300; color: #e5e7eb; }}
-        .m-val {{ font-family: 'Playfair Display', serif; font-size: 36px; color: #d4af37; }}
-    </style>
+<meta charset="utf-8">
+{FONT_LINKS}
+<style>
+{BASE_STYLE}
+.accent-line {{ width: 120px; height: 2px; background: #d4af37; margin-top: 50px; opacity: 0; animation: slideUp 1s ease forwards 0.6s; }}
+</style>
 </head>
 <body>
-    <div class="kicker">Bangkok Fine Dining Intelligence</div>
-    <h1 class="title">{title}</h1>
-    {card_content}
+  <div class="kicker">{kicker_text}</div>
+  <h1 class="title">{headline}</h1>
+  <div class="accent-line"></div>
 </body>
 </html>
 """
 
-async def generate_tts(slide_num: int, text: str):
-    audio_path = f"audio/slide_{slide_num}.mp3"
-    response = await openai_client.audio.speech.create(model="tts-1-hd", voice="alloy", input=text)
+
+def render_bullet_slide(headline, bullets):
+    bullet_rows = "".join(
+        f'<div class="bullet-row" style="animation-delay: {0.6 + (i * 0.15)}s;">'
+        f'<div class="dot"></div><div>{b}</div></div>'
+        for i, b in enumerate(bullets[:3])
+    )
+    return f"""<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+{FONT_LINKS}
+<style>
+{BASE_STYLE}
+.editorial-box {{
+  width: 100%; background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 6px;
+  padding: 60px 50px; box-shadow: 0 40px 80px rgba(0,0,0,0.8);
+}}
+.bullet-row {{ display: flex; align-items: center; margin-bottom: 35px; opacity: 0; animation: slideUp 0.8s ease forwards; font-size: 38px; font-weight: 300; color: #e2e8f0; }}
+.bullet-row:last-child {{ margin-bottom: 0; }}
+.dot {{ width: 8px; height: 8px; background-color: #d4af37; border-radius: 50%; margin-right: 25px; box-shadow: 0 0 10px #d4af37; flex-shrink: 0; }}
+</style>
+</head>
+<body>
+  <div class="kicker">{KICKER}</div>
+  <h1 class="title">{headline}</h1>
+  <div class="editorial-box">{bullet_rows}</div>
+</body>
+</html>
+"""
+
+
+def render_pipeline_slide(headline, steps):
+    step_html = ""
+    for i, step_text in enumerate(steps, start=1):
+        step_html += f'''
+    <div class="flow-step" style="animation-delay: {0.6 + (i * 0.15)}s;">
+      <div class="flow-number">{i}</div>
+      <div class="flow-label">{step_text}</div>
+    </div>'''
+        if i < len(steps):
+            step_html += '<div class="flow-arrow">&#8595;</div>'
+    return f"""<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+{FONT_LINKS}
+<style>
+{BASE_STYLE}
+.flow {{ width: 100%; display: flex; flex-direction: column; align-items: center; gap: 8px; }}
+.flow-step {{ width: 100%; display: flex; align-items: center; gap: 26px; opacity: 0; animation: slideUp 0.8s ease forwards; }}
+.flow-number {{
+  width: 70px; height: 70px; border-radius: 50%;
+  border: 2px solid #d4af37; color: #d4af37;
+  font-family: 'Playfair Display', serif; font-size: 30px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}}
+.flow-label {{
+  flex-grow: 1; background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(212,175,55,0.25); border-radius: 6px;
+  padding: 24px 32px; font-size: 30px; font-weight: 300; color: #e5e7eb;
+}}
+.flow-arrow {{ color: #d4af37; font-size: 34px; }}
+</style>
+</head>
+<body>
+  <div class="kicker">{KICKER}</div>
+  <h1 class="title">{headline}</h1>
+  <div class="flow">{step_html}
+  </div>
+</body>
+</html>
+"""
+
+
+def render_scorecard_slide(headline, items):
+    row_html = "".join(
+        f'<div class="metric-item" style="animation-delay: {0.6 + (i * 0.15)}s;">'
+        f'<span>{item.label}</span><span class="m-val">{item.value}</span></div>'
+        for i, item in enumerate(items[:4])
+    )
+    return f"""<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+{FONT_LINKS}
+<style>
+{BASE_STYLE}
+.metrics-container {{
+  width: 100%; background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 6px;
+  padding: 60px 50px; box-shadow: 0 40px 80px rgba(0,0,0,0.8);
+}}
+.metric-item {{ display: flex; justify-content: space-between; align-items: center; padding: 24px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 30px; font-weight: 300; color: #e5e7eb; opacity: 0; animation: slideUp 0.8s ease forwards; }}
+.metric-item:last-child {{ border-bottom: none; }}
+.m-val {{ font-family: 'Playfair Display', serif; font-size: 36px; color: #d4af37; }}
+</style>
+</head>
+<body>
+  <div class="kicker">{KICKER}</div>
+  <h1 class="title">{headline}</h1>
+  <div class="metrics-container">{row_html}</div>
+</body>
+</html>
+"""
+
+
+async def process_slide(slide, total_slides, pipeline_steps, scorecard_items):
+    original_text = (
+        f"Headline: {slide.headline}\n"
+        f"Bullets: {slide.bullets}\n"
+        f"Narration: {slide.narration}"
+    )
+    critique_result = await critique_agent.run(original_text)
+    critique = critique_result.output
+
+    revision_input = (
+        f"Original headline: {slide.headline}\n"
+        f"Original bullets: {slide.bullets}\n"
+        f"Original narration: {slide.narration}\n"
+        f"Strengths: {critique.strengths}\n"
+        f"Weaknesses: {critique.weaknesses}\n"
+        f"Suggestions: {critique.suggestions}"
+    )
+    revision_result = await revision_agent.run(revision_input)
+    revised = revision_result.output
+
+    slide_type = get_slide_type(slide.slide_number, total_slides)
+
+    if slide_type == "hero":
+        html_content = render_hero_slide(revised.headline, KICKER)
+    elif slide_type == "cta":
+        html_content = render_hero_slide(revised.headline, "Let's Build The Scorecard")
+    elif slide_type == "pipeline":
+        html_content = render_pipeline_slide(revised.headline, pipeline_steps)
+    elif slide_type == "scorecard":
+        html_content = render_scorecard_slide(revised.headline, scorecard_items)
+    else:
+        html_content = render_bullet_slide(revised.headline, revised.bullets)
+
+    with open(f"slides/slide_{slide.slide_number}.html", "w", encoding="utf-8") as f:
+        f.write(html_content)
+
+    audio_path = f"audio/slide_{slide.slide_number}.mp3"
+    response = await openai_client.audio.speech.create(
+        model="tts-1-hd", voice="alloy", input=revised.narration
+    )
     with open(audio_path, "wb") as f:
         f.write(response.content)
-    return audio_path
 
-async def process_single_slide(slide: SlideItem):
-    html_content = generate_html_slide(slide.slide_number, slide.title, slide.description)
-    html_path = f"slides/slide_{slide.slide_number}.html"
-    with open(html_path, "w", encoding="utf-8") as f:
-        f.write(html_content)
-    audio_path = await generate_tts(slide.slide_number, slide.narration)
-    return slide.slide_number, html_path, audio_path
+    return {
+        "slide_number": slide.slide_number,
+        "slide_type": slide_type,
+        "original_headline": slide.headline,
+        "original_bullets": slide.bullets,
+        "original_narration": slide.narration,
+        "critique": critique.model_dump(),
+        "revised_headline": revised.headline,
+        "revised_bullets": revised.bullets,
+        "revised_narration": revised.narration,
+    }
 
-async def main():
-    print("🚀 Starting Luxury Reel Agent...")
+
+async def generate_slides_and_audio():
+    print("Starting Luxury Reel Agent...")
     with open("project_proposal.md", "r", encoding="utf-8") as f:
         proposal_text = f.read()
 
     plan_result = await planner_agent.run(f"Project Proposal:\n{proposal_text}")
     slide_plan = plan_result.output
+
+    os.makedirs("ai_grading", exist_ok=True)
     with open("ai_grading/slide_plan.json", "w", encoding="utf-8") as f:
         json.dump(slide_plan.model_dump(), f, indent=2)
+    print("Saved to ai_grading/slide_plan.json")
 
-    critique_result = await critique_agent.run(f"Review this slide plan:\n{slide_plan.model_dump_json()}")
-    critique_data = critique_result.output
+    pipeline_result = await pipeline_agent.run(f"Project Proposal:\n{proposal_text}")
+    pipeline_steps = pipeline_result.output.steps
+
+    scorecard_result = await scorecard_agent.run(f"Project Proposal:\n{proposal_text}")
+    scorecard_items = scorecard_result.output.items
+
+    os.makedirs("slides", exist_ok=True)
+    os.makedirs("audio", exist_ok=True)
+
+    total_slides = len(slide_plan.slides)
+    tasks = [
+        process_slide(slide, total_slides, pipeline_steps, scorecard_items)
+        for slide in slide_plan.slides
+    ]
+    critique_records = await asyncio.gather(*tasks)
+    critique_records = sorted(critique_records, key=lambda r: r["slide_number"])
+
     with open("ai_grading/critique_feedback.json", "w", encoding="utf-8") as f:
-        json.dump(critique_data.model_dump(), f, indent=2)
+        json.dump(critique_records, f, indent=2)
+    print("Saved critique and feedback to ai_grading/critique_feedback.json")
+    print("Saved HTML slides to slides/ and narration audio to audio/")
 
-    revised_slides = [orig.model_copy(update={"narration": crit.revised_narration}) for orig, crit in zip(slide_plan.slides, critique_data.critiques)]
-    tasks = [process_single_slide(slide) for slide in revised_slides]
-    await asyncio.gather(*tasks)
-    print("✅ Slides and audio generated successfully!")
+    return critique_records
+
+
+def get_audio_duration(path):
+    result = subprocess.run(
+        ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+         "-of", "default=noprint_wrappers=1:nokey=1", path],
+        capture_output=True, text=True
+    )
+    return float(result.stdout.strip())
+
+
+def build_video(slide_numbers):
+    print("Recording animated slides...")
+    os.makedirs("video_clips", exist_ok=True)
+    os.makedirs("video_clips/raw_webm", exist_ok=True)
+
+    with sync_playwright() as p:
+        browser = p.chromium.launch()
+
+        for n in slide_numbers:
+            html_path = os.path.abspath(f"slides/slide_{n}.html")
+            audio_path = f"audio/slide_{n}.mp3"
+            dur = get_audio_duration(audio_path)
+
+            context = browser.new_context(
+                viewport={"width": 1080, "height": 1920},
+                record_video_dir="video_clips/raw_webm",
+                record_video_size={"width": 1080, "height": 1920},
+            )
+            page = context.new_page()
+            page.goto(f"file://{html_path}")
+            page.wait_for_timeout(int(dur * 1000))
+            video = page.video
+            context.close()
+
+            # Name the recording by slide number right away. Playwright's
+            # default filenames are random and don't sort in creation
+            # order, which can silently pair the wrong audio with the
+            # wrong slide later.
+            video.save_as(f"video_clips/raw_webm/slide_{n}.webm")
+
+        browser.close()
+
+    print("Building synchronized MP4 clips with fades and a silent pause...")
+    for n in slide_numbers:
+        webm_path = f"video_clips/raw_webm/slide_{n}.webm"
+        audio_path = f"audio/slide_{n}.mp3"
+        clip_path = f"video_clips/clip_{n}.mp4"
+
+        narration_duration = get_audio_duration(audio_path)
+        fade_out_start = max(narration_duration - FADE_SECONDS, 0)
+        total_duration = narration_duration + GAP_SECONDS
+
+        subprocess.run([
+            "ffmpeg", "-y",
+            "-i", webm_path,
+            "-i", audio_path,
+            "-vf", (
+                f"fade=t=in:st=0:d={FADE_SECONDS},"
+                f"fade=t=out:st={fade_out_start:.3f}:d={FADE_SECONDS},"
+                f"tpad=stop_mode=clone:stop_duration={GAP_SECONDS}"
+            ),
+            "-af", (
+                f"afade=t=in:st=0:d={FADE_SECONDS},"
+                f"afade=t=out:st={fade_out_start:.3f}:d={FADE_SECONDS},"
+                f"apad=pad_dur={GAP_SECONDS}"
+            ),
+            "-c:v", "libx264",
+            "-c:a", "aac", "-b:a", "192k",
+            "-pix_fmt", "yuv420p",
+            "-t", str(total_duration),
+            clip_path
+        ], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        print(f"   -> built clip_{n}.mp4 ({total_duration:.1f}s)")
+
+    print("Stitching final reel.mp4...")
+    with open("video_clips/concat_list.txt", "w") as f:
+        for n in slide_numbers:
+            clip_abspath = os.path.abspath(f"video_clips/clip_{n}.mp4")
+            f.write(f"file '{clip_abspath}'\n")
+
+    subprocess.run([
+        "ffmpeg", "-y",
+        "-f", "concat", "-safe", "0",
+        "-i", "video_clips/concat_list.txt",
+        "-c", "copy",
+        "reel.mp4"
+    ], check=True)
+
+    print("Saved final animated reel.mp4 with fades and a silent pause between slides")
+
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    records = asyncio.run(generate_slides_and_audio())
+    build_video([r["slide_number"] for r in records])

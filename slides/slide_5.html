@@ -1,40 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            width: 1080px; height: 1920px;
-            background: radial-gradient(circle at center, #141418 0%, #070709 100%);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            color: #ffffff; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; padding: 100px;
-            overflow: hidden; position: relative;
-        }
-        .kicker { color: #d4af37; font-size: 20px; font-weight: 500; letter-spacing: 8px; text-transform: uppercase; margin-bottom: 25px; opacity: 0; animation: fadeInDown 0.8s ease forwards 0.2s; }
-        .title { font-family: 'Playfair Display', serif; font-size: 72px; font-weight: 400; text-align: center; line-height: 1.2; margin-bottom: 60px; color: #fcfcfc; opacity: 0; animation: fadeInDown 0.8s ease forwards 0.4s; }
-        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .editorial-box, .metrics-container {
-            width: 100%; background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 6px;
-            padding: 60px 50px; box-shadow: 0 40px 80px rgba(0,0,0,0.8);
-        }
-        .animate-in { opacity: 0; animation: slideUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .bullet-row { display: flex; align-items: center; margin-bottom: 35px; opacity: 0; animation: slideUp 0.8s ease forwards; font-size: 38px; font-weight: 300; color: #e2e8f0; }
-        .dot { width: 8px; height: 8px; background-color: #d4af37; border-radius: 50%; margin-right: 25px; box-shadow: 0 0 10px #d4af37; flex-shrink: 0; }
-        
-        .metric-item { display: flex; justify-content: space-between; align-items: center; padding: 24px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.08); font-size: 30px; font-weight: 300; color: #e5e7eb; }
-        .m-val { font-family: 'Playfair Display', serif; font-size: 36px; color: #d4af37; }
-    </style>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  width: 1080px; height: 1920px;
+  background: radial-gradient(circle at center, #141418 0%, #070709 100%);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: #ffffff; display: flex; flex-direction: column;
+  justify-content: center; align-items: center; padding: 100px;
+  overflow: hidden; position: relative;
+}
+.kicker { color: #d4af37; font-size: 20px; font-weight: 500; letter-spacing: 8px; text-transform: uppercase; margin-bottom: 25px; opacity: 0; animation: fadeInDown 0.8s ease forwards 0.2s; }
+.title { font-family: 'Playfair Display', serif; font-size: 72px; font-weight: 400; text-align: center; line-height: 1.2; margin-bottom: 60px; color: #fcfcfc; opacity: 0; animation: fadeInDown 0.8s ease forwards 0.4s; }
+@keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+.accent-line { width: 120px; height: 2px; background: #d4af37; margin-top: 50px; opacity: 0; animation: slideUp 1s ease forwards 0.6s; }
+</style>
 </head>
 <body>
-    <div class="kicker">Bangkok Fine Dining Intelligence</div>
-    <h1 class="title">Turn Friction into Opportunity</h1>
-    <div class="editorial-box animate-in"><div class="bullet-row" style="animation-delay: 0.2s;"><div class="dot"></div><div>Clusters recurring themes into prioritized operational opportunities</div></div><div class="bullet-row" style="animation-delay: 0.35s;"><div class="dot"></div><div>Surfaces quick wins across wait times, reservations, service, and value</div></div><div class="bullet-row" style="animation-delay: 0.5s;"><div class="dot"></div><div>Ends with a confident invitation to act on evidence, not assumptions</div></div></div>
+  <div class="kicker">Let's Build The Scorecard</div>
+  <h1 class="title">Your Restaurant’s Next Best Move</h1>
+  <div class="accent-line"></div>
 </body>
 </html>
