@@ -392,7 +392,7 @@ async def process_slide(slide, total_slides, pipeline_steps, scorecard_items):
     if slide_type == "hero":
         html_content = render_hero_slide(revised.headline, KICKER)
     elif slide_type == "cta":
-        html_content = render_hero_slide(revised.headline, "Let's Build The Scorecard")
+        html_content = render_hero_slide(revised.headline, KICKER)
     elif slide_type == "pipeline":
         html_content = render_pipeline_slide(revised.headline, pipeline_steps)
     elif slide_type == "scorecard":
