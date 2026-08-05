@@ -1,56 +1,20 @@
-# Multimodal Fine Dining Consumer Insight Observer
+# Project Proposal: Bangkok Fine Dining Sentiment & Opportunity Agent
 
-## Problem
-Bangkok's fine dining restaurants generate thousands of Google Reviews, but
-that feedback is scattered across free text, star ratings, and multiple
-languages. Operators have no efficient way to see past an aggregate star
-rating to understand which specific parts of the guest experience are
-working and which aren't, whether a complaint is really about food,
-service, ambience, waiting time, or price. Reading reviews manually
-doesn't scale, so operators end up making decisions on gut feeling rather
-than on what customers are consistently saying.
+## 1. Problem Statement
+Bangkok's fine dining operators face intense competition and high customer acquisition costs. While thousands of customer reviews exist on Google Reviews, traditional manual reading and star ratings fail to pinpoint operational bottlenecks or competitive strengths across granular dining dimensions.
 
-## Audience
-Bangkok fine dining restaurant owners and operations managers who want a
-structured, data-driven view of guest sentiment to guide operational
-improvements, benchmark themselves against competitors, and prioritize
-where to invest limited resources.
+## 2. Target Audience
+Fine dining restaurant owners, general managers, and culinary directors in Bangkok seeking data-driven operational benchmarking and actionable customer insight.
 
-## Scope
-We will build an AI research pipeline that:
-1. Collects Google Reviews from roughly 30-50 Bangkok fine dining
-   restaurants (about 15,000-30,000 reviews total), capturing restaurant
-   name, rating, review count, review text, date, reviewer language, and
-   price level.
-2. Cleans and prepares the review data for analysis.
-3. Uses an LLM to classify each review across business-relevant aspects,
-   including food quality, taste, service, staff friendliness, waiting
-   time, ambience, interior design, value for money, drinks, dessert,
-   reservation, parking, and cleanliness, as positive, neutral, or
-   negative (Aspect-Based Sentiment Analysis).
-4. Benchmarks restaurants against each other using an AI Restaurant Score
-   built from aspect-level sentiment, plus category-by-category
-   comparisons.
-5. Generates strategic recommendations for each restaurant.
+## 3. Scope of Work
+Build an AI Agent pipeline that reads 15,000–30,000 Google Reviews from 30–50 fine dining restaurants in Bangkok. The agent performs Aspect-Based Sentiment Analysis (ABSA) across key business dimensions:
+- Food Quality & Taste
+- Service & Staff Friendliness
+- Ambience & Interior Design
+- Value for Money & Pricing
+- Operational Bottlenecks (Waiting time, Reservation issues)
 
-## Key Outputs
-- An overall AI Restaurant Score ranking that goes beyond simple star
-  ratings
-- Category benchmarking across food, service, atmosphere, and value
-- A positioning map plotting restaurants on operational excellence versus
-  guest experience
-- Competitive radar charts across the aspect categories
-- An opportunity matrix per restaurant highlighting its biggest strength,
-  biggest weakness, and quick wins
-- Customer journey mapping, from reservation through arrival, waiting,
-  ordering, food, dessert, and payment, showing where sentiment clusters
-- Word cloud and theme analysis of recurring positive and negative
-  language
-- Trend analysis over time, such as whether service is improving or a
-  renovation changed sentiment
-- A one-page benchmark report per restaurant summarizing its score,
-  strengths, weaknesses, market position, competitors, and priority
-  recommendations
-
-This gives fine dining operators, for the first time, a clear,
-evidence-based picture of exactly where they stand and what to fix first.
+## 4. Expected Deliverables & Outcomes
+- **AI Restaurant Scorecard & Benchmarking:** Combined aspect-based rating replacing raw star counts.
+- **Positioning Matrix & Radar Charts:** Visualizing relative positioning (Operational Excellence vs. Experience).
+- **Automated Opportunity Matrix:** Generating strategic quick wins based on review theme clusters.
