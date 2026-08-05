@@ -3,57 +3,57 @@
     {
       "slide_number": 1,
       "headline": "See Beyond The Stars",
-      "description": "Elegant opening frame with a refined Bangkok dining backdrop, a central contrast between aggregate star ratings and aspect-level insight, and a restrained data motif.",
+      "description": "Title slide: kicker label, headline text, and a thin accent line on a dark gradient background. No bullet list, diagram, or chart is shown.",
       "bullets": [
-        "15,000\u201330,000 reviews, one clear view",
-        "Multilingual feedback, unified intelligently",
-        "Decisions grounded in guest reality"
+        "Turn scattered reviews into structured guest intelligence",
+        "Reveal what truly drives Bangkok fine dining satisfaction",
+        "Replace gut feeling with evidence-based operational decisions"
       ],
-      "narration": "Bangkok\u2019s finest restaurants already have the answers in their reviews. We reveal the patterns hidden beyond the stars."
+      "narration": "Thousands of reviews contain the answers, but star ratings hide the detail. This platform turns fragmented guest feedback into clear, actionable intelligence for Bangkok\u2019s fine dining operators."
     },
     {
       "slide_number": 2,
-      "headline": "Every Voice, Precisely Read",
-      "description": "Clean four-stage pipeline diagram showing collection, language-aware preparation, AI aspect analysis, and structured insight across 30\u201350 restaurants.",
+      "headline": "One Voice, Many Languages",
+      "description": "Editorial slide: kicker label, headline, and a bordered box containing the slide's bullet points as the on-screen text.",
       "bullets": [
-        "Collect reviews across Bangkok\u2019s fine dining scene",
-        "Decode sentiment across twelve guest experience aspects",
-        "Turn unstructured feedback into comparable signals"
+        "Collect 15,000 to 30,000 reviews across 30 to 50 restaurants",
+        "Clean multilingual feedback for consistent analysis",
+        "Classify sentiment across every meaningful guest experience aspect"
       ],
-      "narration": "Our AI research pipeline gathers, cleans, and interprets thousands of multilingual reviews across the experiences that matter most."
+      "narration": "We build a scalable AI research pipeline, gathering and preparing reviews across Bangkok\u2019s fine dining market, then translating complex feedback into consistent, comparable insight."
     },
     {
       "slide_number": 3,
-      "headline": "Benchmark What Guests Feel",
-      "description": "Premium analytics dashboard composition featuring an AI Restaurant Score, competitive radar chart, and positioning map contrasting operational excellence with guest experience.",
+      "headline": "Benchmark What Matters",
+      "description": "Illustrated pipeline diagram: kicker, headline, and numbered circular stages connected by downward arrows, each labeled with a step of the process.",
       "bullets": [
-        "Rank performance beyond simple star averages",
-        "Compare food, service, atmosphere, and value",
-        "See competitive position at a glance"
+        "Rank restaurants with an aspect-based AI Restaurant Score",
+        "Compare food, service, atmosphere, value, and more",
+        "Map operational excellence against guest experience"
       ],
-      "narration": "The result is a more meaningful benchmark: a restaurant score built from what guests actually praise, question, and remember."
+      "narration": "The result goes beyond aggregate ratings. Operators can see how they compare across the categories that shape loyalty, reputation, and the complete dining experience."
     },
     {
       "slide_number": 4,
-      "headline": "Find The Moment That Matters",
-      "description": "Horizontal customer journey map from reservation through payment, with sentiment clusters, recurring themes, and highlighted friction points along the journey.",
+      "headline": "Find The Moments That Matter",
+      "description": "Scorecard slide: kicker, headline, and a bordered box listing label/value stat rows summarizing the project's real scope.",
       "bullets": [
-        "Trace sentiment from reservation to payment",
-        "Locate recurring friction and delight",
-        "Spot changes across time and experience"
+        "Trace sentiment from reservation through payment",
+        "Identify recurring praise, complaints, and language themes",
+        "Track performance shifts over time and after changes"
       ],
-      "narration": "We map the complete guest journey, showing exactly where sentiment strengthens, breaks down, or changes over time."
+      "narration": "Customer journey mapping shows exactly where sentiment rises or falls, while trend and theme analysis reveal recurring issues and whether improvements are actually working."
     },
     {
       "slide_number": 5,
-      "headline": "From Insight To Action",
-      "description": "One-page executive benchmark report shown as a polished editorial dashboard, combining strengths, weaknesses, quick wins, market position, and prioritized recommendations.",
+      "headline": "Turn Insight Into Action",
+      "description": "Closing slide: kicker label and headline on a dark gradient background, matching the opening slide's style. No bullet list, diagram, or chart is shown.",
       "bullets": [
-        "Identify one defining strength and weakness",
-        "Prioritize practical, high-impact improvements",
-        "Convert evidence into a sharper guest experience"
+        "Highlight each restaurant\u2019s strengths, weaknesses, and quick wins",
+        "Prioritize investments using competitive evidence",
+        "Deliver a clear one-page benchmark report"
       ],
-      "narration": "Each restaurant receives a focused action plan: its position, its priorities, and the clearest opportunities to improve what guests value most."
+      "narration": "Every restaurant receives a practical action plan: its market position, biggest opportunities, competitive context, and the next improvements most likely to create guest value."
     }
   ]
 }

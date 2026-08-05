@@ -20,9 +20,76 @@ if not api_key:
 openai_client = AsyncOpenAI(api_key=api_key)
 
 FADE_SECONDS = 0.25
-GAP_SECONDS = 0.2  # true silence + held frame added after each slide, before the cut
+GAP_SECONDS = 0.2
 
 KICKER = "Bangkok Fine Dining Intelligence"
+
+AGENT_FLOW_SVG = """<svg width="960" height="1150" viewBox="0 0 960 1150" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M1 1L9 5L1 9" fill="none" stroke="#6b7785" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <text x="480" y="36" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" font-weight="700" fill="#1a2531">Fine Dining Reel Agent — pipeline overview</text>
+
+  <rect x="280" y="60" width="400" height="64" rx="10" fill="#1a2531" stroke="#d4af37" stroke-width="1.5"/>
+  <text x="480" y="85" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="17" font-weight="600" fill="#ffffff">project_proposal.md</text>
+  <text x="480" y="107" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" fill="#aab4bf">Fine dining ABSA project (input)</text>
+
+  <line x1="480" y1="124" x2="480" y2="164" stroke="#6b7785" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <rect x="180" y="168" width="600" height="76" rx="10" fill="#1a2531" stroke="#d4af37" stroke-width="1.5"/>
+  <text x="480" y="196" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="17" font-weight="600" fill="#ffffff">Planner + Pipeline + Scorecard agents (gpt-5.6-luna)</text>
+  <text x="480" y="219" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" fill="#aab4bf">→ slide_plan.json, pipeline steps, scope stats</text>
+
+  <line x1="480" y1="244" x2="480" y2="284" stroke="#6b7785" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <rect x="80" y="288" width="800" height="220" rx="14" fill="none" stroke="#d4af37" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="480" y="312" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="700" fill="#b8860b">Runs in parallel for every slide (asyncio.gather)</text>
+
+  <rect x="130" y="334" width="200" height="60" rx="8" fill="#1a2531" stroke="#d4af37" stroke-width="1.2"/>
+  <text x="230" y="357" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="600" fill="#ffffff">Critique agent</text>
+  <text x="230" y="378" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" fill="#aab4bf">Flags weak copy</text>
+
+  <rect x="380" y="334" width="200" height="60" rx="8" fill="#1a2531" stroke="#d4af37" stroke-width="1.2"/>
+  <text x="480" y="357" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="600" fill="#ffffff">Revision agent</text>
+  <text x="480" y="378" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" fill="#aab4bf">Rewrites headline &amp; bullets</text>
+
+  <line x1="330" y1="364" x2="376" y2="364" stroke="#6b7785" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <rect x="630" y="334" width="200" height="60" rx="8" fill="#1a2531" stroke="#d4af37" stroke-width="1.2"/>
+  <text x="730" y="357" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="600" fill="#ffffff">TTS (tts-1-hd)</text>
+  <text x="730" y="378" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" fill="#aab4bf">→ audio/slide_N.mp3</text>
+
+  <line x1="580" y1="364" x2="626" y2="364" stroke="#6b7785" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <rect x="255" y="444" width="450" height="50" rx="8" fill="#1a2531" stroke="#d4af37" stroke-width="1.2"/>
+  <text x="480" y="474" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="600" fill="#ffffff">Animated HTML render → slides/slide_N.html</text>
+
+  <line x1="480" y1="394" x2="480" y2="440" stroke="#6b7785" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <line x1="480" y1="508" x2="480" y2="548" stroke="#6b7785" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <rect x="230" y="552" width="500" height="70" rx="10" fill="#1a2531" stroke="#d4af37" stroke-width="1.5"/>
+  <text x="480" y="578" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="17" font-weight="600" fill="#ffffff">Playwright (records each slide's CSS animation)</text>
+  <text x="480" y="601" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" fill="#aab4bf">Named explicitly per slide → video_clips/raw_webm/slide_N.webm</text>
+
+  <line x1="480" y1="622" x2="480" y2="662" stroke="#6b7785" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <rect x="230" y="666" width="500" height="70" rx="10" fill="#1a2531" stroke="#d4af37" stroke-width="1.5"/>
+  <text x="480" y="692" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="17" font-weight="600" fill="#ffffff">ffmpeg — per slide</text>
+  <text x="480" y="715" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" fill="#aab4bf">fade in/out + silent gap → video_clips/clip_N.mp4</text>
+
+  <line x1="480" y1="736" x2="480" y2="776" stroke="#6b7785" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <rect x="230" y="780" width="500" height="80" rx="10" fill="#d4af37" stroke="#1a2531" stroke-width="1.5"/>
+  <text x="480" y="812" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#1a2531">ffmpeg concat</text>
+  <text x="480" y="836" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" fill="#3a3020">clip_1…clip_N → reel.mp4 (final output)</text>
+
+  <text x="480" y="900" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" fill="#5a6472">Also saved for grading: ai_grading/slide_plan.json, ai_grading/critique_feedback.json</text>
+</svg>
+"""
 
 FONT_LINKS = (
     '<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:'
@@ -46,11 +113,21 @@ body {
 @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 """
 
+# Code-generated, guaranteed-accurate description per template, keyed by the
+# same slide_type used to pick the actual renderer. The LLM never writes
+# this field, so it can never drift from what's actually rendered.
+DESCRIPTION_TEMPLATES = {
+    "hero": "Title slide: kicker label, headline text, and a thin accent line on a dark gradient background. No bullet list, diagram, or chart is shown.",
+    "bullets": "Editorial slide: kicker label, headline, and a bordered box containing the slide's bullet points as the on-screen text.",
+    "pipeline": "Illustrated pipeline diagram: kicker, headline, and numbered circular stages connected by downward arrows, each labeled with a step of the process.",
+    "scorecard": "Scorecard slide: kicker, headline, and a bordered box listing label/value stat rows summarizing the project's real scope.",
+    "cta": "Closing slide: kicker label and headline on a dark gradient background, matching the opening slide's style. No bullet list, diagram, or chart is shown.",
+}
+
 
 class Slide(BaseModel):
     slide_number: int
     headline: str
-    description: str     # what's on screen: text AND visual treatment, for grading notes (not rendered directly)
     bullets: List[str]   # 2-3 clean on-screen phrases, generated directly (never regex-split from prose)
     narration: str
 
@@ -67,7 +144,6 @@ class Critique(BaseModel):
 
 class RevisedSlide(BaseModel):
     headline: str
-    description: str
     bullets: List[str]
     narration: str
 
@@ -92,15 +168,11 @@ planner_agent = Agent(
         "You are an expert luxury video producer. Given a project proposal, "
         "produce a plan for 4 to 6 slides that pitch the project. For each "
         "slide, provide: (1) a headline, short punchy on-screen text a "
-        "viewer would read, 3 to 8 words, never a shot description; (2) a "
-        "description of what is on screen for this slide, covering both the "
-        "on-screen text and the visual treatment, for example 'numbered "
-        "pipeline diagram with four stages' or 'two contrasting stat cards', "
-        "for internal grading notes only, this is not shown on screen "
-        "itself; (3) 2 to 3 clean bullet phrases, each a complete short "
-        "phrase under 12 words, plain text with no markdown, no bullet "
-        "characters, and no trailing hyphens or dashes; (4) narration text "
-        "to be spoken aloud, readable in about 10 seconds or less."
+        "viewer would read, 3 to 8 words, never a shot description; (2) 2 to "
+        "3 clean bullet phrases, each a complete short phrase under 12 "
+        "words, plain text with no markdown, no bullet characters, and no "
+        "trailing hyphens or dashes; (3) narration text to be spoken aloud, "
+        "readable in about 10 seconds or less."
     ),
 )
 
@@ -109,11 +181,10 @@ critique_agent = Agent(
     output_type=Critique,
     system_prompt=(
         "You are an art director critiquing one slide from a luxury "
-        "promotional video reel. Given its headline, description, bullets, "
-        "and narration, identify what's strong, what's weak, and give "
-        "specific suggestions. Be critical of generic phrasing or a "
-        "headline that reads like a shot description instead of on-screen "
-        "copy."
+        "promotional video reel. Given its headline, bullets, and "
+        "narration, identify what's strong, what's weak, and give specific "
+        "suggestions. Be critical of generic phrasing or a headline that "
+        "reads like a shot description instead of on-screen copy."
     ),
 )
 
@@ -122,10 +193,8 @@ revision_agent = Agent(
     output_type=RevisedSlide,
     system_prompt=(
         "You revise a luxury video reel slide based on critique feedback. "
-        "Produce an improved headline (3 to 8 words), an updated "
-        "description of what is on screen (text and visual treatment, for "
-        "internal grading notes, not shown on screen itself), 2 to 3 clean "
-        "bullet phrases (plain text, no markdown, no bullet characters, no "
+        "Produce an improved headline (3 to 8 words), 2 to 3 clean bullet "
+        "phrases (plain text, no markdown, no bullet characters, no "
         "trailing hyphens), and narration readable in about 10 seconds or "
         "less."
     ),
@@ -298,9 +367,11 @@ def render_scorecard_slide(headline, items):
 
 
 async def process_slide(slide, total_slides, pipeline_steps, scorecard_items):
+    slide_type = get_slide_type(slide.slide_number, total_slides)
+    description = DESCRIPTION_TEMPLATES[slide_type]
+
     original_text = (
         f"Headline: {slide.headline}\n"
-        f"Description: {slide.description}\n"
         f"Bullets: {slide.bullets}\n"
         f"Narration: {slide.narration}"
     )
@@ -309,7 +380,6 @@ async def process_slide(slide, total_slides, pipeline_steps, scorecard_items):
 
     revision_input = (
         f"Original headline: {slide.headline}\n"
-        f"Original description: {slide.description}\n"
         f"Original bullets: {slide.bullets}\n"
         f"Original narration: {slide.narration}\n"
         f"Strengths: {critique.strengths}\n"
@@ -318,8 +388,6 @@ async def process_slide(slide, total_slides, pipeline_steps, scorecard_items):
     )
     revision_result = await revision_agent.run(revision_input)
     revised = revision_result.output
-
-    slide_type = get_slide_type(slide.slide_number, total_slides)
 
     if slide_type == "hero":
         html_content = render_hero_slide(revised.headline, KICKER)
@@ -346,12 +414,12 @@ async def process_slide(slide, total_slides, pipeline_steps, scorecard_items):
         "slide_number": slide.slide_number,
         "slide_type": slide_type,
         "original_headline": slide.headline,
-        "original_description": slide.description,
+        "original_description": description,
         "original_bullets": slide.bullets,
         "original_narration": slide.narration,
         "critique": critique.model_dump(),
         "revised_headline": revised.headline,
-        "revised_description": revised.description,
+        "revised_description": description,
         "revised_bullets": revised.bullets,
         "revised_narration": revised.narration,
     }
@@ -364,10 +432,30 @@ async def generate_slides_and_audio():
 
     plan_result = await planner_agent.run(f"Project Proposal:\n{proposal_text}")
     slide_plan = plan_result.output
+    total_slides = len(slide_plan.slides)
 
     os.makedirs("ai_grading", exist_ok=True)
+
+    with open("ai_grading/agent_flow.svg", "w", encoding="utf-8") as f:
+        f.write(AGENT_FLOW_SVG)
+
+    # Build slide_plan.json with a code-generated description per slide so
+    # it always accurately matches what actually renders, instead of asking
+    # the LLM to predict which visual template it will be assigned.
+    slide_plan_output = {
+        "slides": [
+            {
+                "slide_number": s.slide_number,
+                "headline": s.headline,
+                "description": DESCRIPTION_TEMPLATES[get_slide_type(s.slide_number, total_slides)],
+                "bullets": s.bullets,
+                "narration": s.narration,
+            }
+            for s in slide_plan.slides
+        ]
+    }
     with open("ai_grading/slide_plan.json", "w", encoding="utf-8") as f:
-        json.dump(slide_plan.model_dump(), f, indent=2)
+        json.dump(slide_plan_output, f, indent=2)
     print("Saved to ai_grading/slide_plan.json")
 
     pipeline_result = await pipeline_agent.run(f"Project Proposal:\n{proposal_text}")
@@ -379,7 +467,6 @@ async def generate_slides_and_audio():
     os.makedirs("slides", exist_ok=True)
     os.makedirs("audio", exist_ok=True)
 
-    total_slides = len(slide_plan.slides)
     tasks = [
         process_slide(slide, total_slides, pipeline_steps, scorecard_items)
         for slide in slide_plan.slides
