@@ -1,0 +1,65 @@
+<svg width="960" height="1150" viewBox="0 0 960 1150" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M1 1L9 5L1 9" fill="none" stroke="#6b7785" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <text x="480" y="36" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" font-weight="700" fill="#1a2531">Fine Dining Reel Agent — pipeline overview</text>
+
+  <rect x="280" y="60" width="400" height="64" rx="10" fill="#1a2531" stroke="#d4af37" stroke-width="1.5"/>
+  <text x="480" y="85" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="17" font-weight="600" fill="#ffffff">project_proposal.md</text>
+  <text x="480" y="107" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" fill="#aab4bf">Fine dining ABSA project (input)</text>
+
+  <line x1="480" y1="124" x2="480" y2="164" stroke="#6b7785" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <rect x="180" y="168" width="600" height="76" rx="10" fill="#1a2531" stroke="#d4af37" stroke-width="1.5"/>
+  <text x="480" y="196" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="17" font-weight="600" fill="#ffffff">Planner + Pipeline + Scorecard agents (gpt-5.6-luna)</text>
+  <text x="480" y="219" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" fill="#aab4bf">→ slide_plan.json, pipeline steps, scope stats</text>
+
+  <line x1="480" y1="244" x2="480" y2="284" stroke="#6b7785" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <rect x="80" y="288" width="800" height="220" rx="14" fill="none" stroke="#d4af37" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="480" y="312" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="700" fill="#b8860b">Runs in parallel for every slide (asyncio.gather)</text>
+
+  <rect x="130" y="334" width="200" height="60" rx="8" fill="#1a2531" stroke="#d4af37" stroke-width="1.2"/>
+  <text x="230" y="357" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="600" fill="#ffffff">Critique agent</text>
+  <text x="230" y="378" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" fill="#aab4bf">Flags weak copy</text>
+
+  <rect x="380" y="334" width="200" height="60" rx="8" fill="#1a2531" stroke="#d4af37" stroke-width="1.2"/>
+  <text x="480" y="357" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="600" fill="#ffffff">Revision agent</text>
+  <text x="480" y="378" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" fill="#aab4bf">Rewrites headline &amp; bullets</text>
+
+  <line x1="330" y1="364" x2="376" y2="364" stroke="#6b7785" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <rect x="630" y="334" width="200" height="60" rx="8" fill="#1a2531" stroke="#d4af37" stroke-width="1.2"/>
+  <text x="730" y="357" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="600" fill="#ffffff">TTS (tts-1-hd)</text>
+  <text x="730" y="378" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" fill="#aab4bf">→ audio/slide_N.mp3</text>
+
+  <line x1="580" y1="364" x2="626" y2="364" stroke="#6b7785" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <rect x="255" y="444" width="450" height="50" rx="8" fill="#1a2531" stroke="#d4af37" stroke-width="1.2"/>
+  <text x="480" y="474" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="600" fill="#ffffff">Animated HTML render → slides/slide_N.html</text>
+
+  <line x1="480" y1="394" x2="480" y2="440" stroke="#6b7785" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <line x1="480" y1="508" x2="480" y2="548" stroke="#6b7785" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <rect x="230" y="552" width="500" height="70" rx="10" fill="#1a2531" stroke="#d4af37" stroke-width="1.5"/>
+  <text x="480" y="578" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="17" font-weight="600" fill="#ffffff">Playwright (records each slide's CSS animation)</text>
+  <text x="480" y="601" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" fill="#aab4bf">Named explicitly per slide → video_clips/raw_webm/slide_N.webm</text>
+
+  <line x1="480" y1="622" x2="480" y2="662" stroke="#6b7785" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <rect x="230" y="666" width="500" height="70" rx="10" fill="#1a2531" stroke="#d4af37" stroke-width="1.5"/>
+  <text x="480" y="692" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="17" font-weight="600" fill="#ffffff">ffmpeg — per slide</text>
+  <text x="480" y="715" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" fill="#aab4bf">fade in/out + silent gap → video_clips/clip_N.mp4</text>
+
+  <line x1="480" y1="736" x2="480" y2="776" stroke="#6b7785" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <rect x="230" y="780" width="500" height="80" rx="10" fill="#d4af37" stroke="#1a2531" stroke-width="1.5"/>
+  <text x="480" y="812" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#1a2531">ffmpeg concat</text>
+  <text x="480" y="836" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" fill="#3a3020">clip_1…clip_N → reel.mp4 (final output)</text>
+
+  <text x="480" y="900" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" fill="#5a6472">Also saved for grading: ai_grading/slide_plan.json, ai_grading/critique_feedback.json</text>
+</svg>
